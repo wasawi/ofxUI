@@ -1493,7 +1493,7 @@ ofxUIRangeSlider* ofxUICanvas::addRangeSlider(string _name, float _min, float _m
 }
 
 ofxUIRangeSlider* ofxUICanvas::addRangeSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh,
-                                 float w, float h, float x, float y)
+											  float w, float h, float x, float y)
 {
     ofxUIRangeSlider* widget = new ofxUIRangeSlider(_name, _min, _max, _valuelow, _valuehigh, w, h, x, y);
     addWidgetPosition(widget, widgetPosition, widgetAlign);
@@ -1508,7 +1508,7 @@ ofxUIRangeSlider* ofxUICanvas::addRangeSlider(string _name, float _min, float _m
 }
 
 ofxUIRangeSlider* ofxUICanvas::addRangeSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh,
-                                 float w, float h, float x, float y)
+											  float w, float h, float x, float y)
 {
     ofxUIRangeSlider* widget = new ofxUIRangeSlider(_name, _min, _max, _valuelow, _valuehigh, w, h, x, y);
     addWidgetPosition(widget, widgetPosition, widgetAlign);

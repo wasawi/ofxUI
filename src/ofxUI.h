@@ -33,3 +33,7 @@
 #include "ofxUIScrollableCanvas.h"
 #include "ofxUISuperCanvas.h"
 #include "ofxUITabBar.h"
+
+//c
+#include "ofxUIScrollableSliderCanvas.h"
+#include "ofxUIScrollSlider.h"
