@@ -371,6 +371,13 @@ void ofxUIWidget::setState(int _state)
     state = _state;
 }
 //--------------------------------------------------------------------------------
+//c
+int ofxUIWidget::getState()
+{
+    return state;
+}
+
+
 void ofxUIWidget::setDrawPadding(bool _draw_padded_rect)
 {
     draw_padded_rect = _draw_padded_rect;
@@ -524,6 +531,11 @@ int ofxUIWidget::getKind()
 void ofxUIWidget::setFont(ofxUIFont *_font)
 {
     font = _font;
+}
+
+//float ofxUIWidget::getPadding()
+ofxUIFont * ofxUIWidget::getFont(){
+	return font;
 }
 
 void ofxUIWidget::setVisible(bool _visible)
