@@ -25,12 +25,12 @@
 #include "ofxUIImageSampler.h"
 #include "ofxUI.h"
 
-ofxUIImageSampler::ofxUIImageSampler(float x, float y, float w, float h, ofImage *_image, string _name) : ofxUIImage(x, y, w, h, _image, _name)
+ofxUIImageSampler::ofxUIImageSampler(float x, float y, float w, float h, ofImage _image, string _name) : ofxUIImage(x, y, w, h, _image, _name)
 {
     initSampler();
 }
 
-ofxUIImageSampler::ofxUIImageSampler(float w, float h, ofImage *_image, string _name) : ofxUIImage(w, h, _image, _name)
+ofxUIImageSampler::ofxUIImageSampler(float w, float h, ofImage _image, string _name) : ofxUIImage(w, h, _image, _name)
 {
     initSampler();
 }
@@ -54,11 +54,11 @@ void ofxUIImageSampler::drawFill()
 {
     if(draw_fill)
     {
-        if(image != NULL)
+        if(image.isAllocated())
         {
             ofxUIFill();
             ofxUISetColor(255);
-            image->draw(rect->getX(), rect->getY(), rect->width, rect->height);
+            image.draw(rect->getX(), rect->getY(), rect->width, rect->height);
         }
         ofxUISetColor(color_fill);
         ofxUIDrawLine(rect->getX()+value.x*rect->getWidth(),  rect->getY(), rect->getX()+value.x*rect->getWidth(),  rect->getY()+rect->getHeight());
@@ -207,7 +207,7 @@ void ofxUIImageSampler::setValue(ofPoint _value)
 {
     value.x = MIN(1.0, MAX(0.0, _value.x));
     value.y = MIN(1.0, MAX(0.0, _value.y));
-    sampledColor = image->getColor(value.x*(image->getWidth()-1), value.y*(image->getHeight()-1));
+    sampledColor = image.getColor(value.x*(image.getWidth()-1), value.y*(image.getHeight()-1));
 }
 
 bool ofxUIImageSampler::isDraggable()

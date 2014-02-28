@@ -29,8 +29,8 @@
 class ofxUIImageSampler : public ofxUIImage
 {
 public:
-    ofxUIImageSampler(float x, float y, float w, float h, ofImage *_image, string _name);
-    ofxUIImageSampler(float w, float h, ofImage *_image, string _name);
+    ofxUIImageSampler(float x, float y, float w, float h, ofImage _image, string _name);
+    ofxUIImageSampler(float w, float h, ofImage _image, string _name);
     void initSampler();
     void setSquareSize(float _squareSize);
     void drawFill();

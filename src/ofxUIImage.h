@@ -30,19 +30,19 @@
 class ofxUIImage : public ofxUIWidgetWithLabel
 {
 public:
-    ofxUIImage(float x, float y, float w, float h, ofImage *_image, string _name);
-    ofxUIImage(float x, float y, float w, float h, ofImage *_image, string _name, bool _showLabel);
-    ofxUIImage(float w, float h, ofImage *_image, string _name);
-    ofxUIImage(float w, float h, ofImage *_image, string _name, bool _showLabel);
-    void init(float x, float y, float w, float h, ofImage *_image, string _name);
+    ofxUIImage(float x, float y, float w, float h, ofImage _image, string _name); 
+    ofxUIImage(float x, float y, float w, float h, ofImage _image, string _name, bool _showLabel);
+    ofxUIImage(float w, float h, ofImage _image, string _name);
+    ofxUIImage(float w, float h, ofImage _image, string _name, bool _showLabel); 
+    void init(float x, float y, float w, float h, ofImage _image, string _name);
     virtual void setDrawPadding(bool _draw_padded_rect);
     virtual void setDrawPaddingOutline(bool _draw_padded_rect_outline);
     virtual void drawFill();
     void setCropImageToFitRect(bool _cropImageToFitRect);
-    void setImage(ofImage *_image);
+    void setImage(ofImage _image);
     virtual bool isDraggable();
     
 protected:  
-	ofImage *image;
+	ofImage image;
     bool cropImageToFitRect; 
 }; 

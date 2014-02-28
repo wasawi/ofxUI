@@ -25,29 +25,28 @@
 #include "ofxUIImage.h"
 #include "ofxUI.h"
 
-ofxUIImage::ofxUIImage(float x, float y, float w, float h, ofImage *_image, string _name) : ofxUIWidgetWithLabel()
+ofxUIImage::ofxUIImage(float x, float y, float w, float h, ofImage _image, string _name) : ofxUIWidgetWithLabel()
 {
     init(x, y, w, h, _image, _name);
 }
 
-ofxUIImage::ofxUIImage(float x, float y, float w, float h, ofImage *_image, string _name, bool _showLabel) : ofxUIWidgetWithLabel()
+ofxUIImage::ofxUIImage(float x, float y, float w, float h, ofImage _image, string _name, bool _showLabel) : ofxUIWidgetWithLabel()
 {
     init(x, y, w, h, _image, _name);
     setLabelVisible(_showLabel);
 }
 
-ofxUIImage::ofxUIImage(float w, float h, ofImage *_image, string _name) : ofxUIWidgetWithLabel()
+ofxUIImage::ofxUIImage(float w, float h, ofImage _image, string _name) : ofxUIWidgetWithLabel()
 {
     init(0, 0, w, h, _image, _name);
 }
 
-ofxUIImage::ofxUIImage(float w, float h, ofImage *_image, string _name, bool _showLabel) : ofxUIWidgetWithLabel()
+ofxUIImage::ofxUIImage(float w, float h, ofImage _image, string _name, bool _showLabel) : ofxUIWidgetWithLabel()
 {
     init(0, 0, w, h, _image, _name);
     setLabelVisible(_showLabel);
 }
-
-void ofxUIImage::init(float x, float y, float w, float h, ofImage *_image, string _name)
+void ofxUIImage::init(float x, float y, float w, float h, ofImage _image, string _name)
 {
     initRect(x,y,w,h);
     name = string(_name);
@@ -79,17 +78,17 @@ void ofxUIImage::drawFill()
 {
     if(draw_fill)
     {
-        if(image != NULL)
+        if(image.isAllocated())
         {
             ofxUIFill();
             ofxUISetColor(255);
             if(cropImageToFitRect)
             {
-                image->drawSubsection(rect->getX(), rect->getY(), rect->width, rect->height, 0, 0, rect->width, rect->height);
+                image.drawSubsection(rect->getX(), rect->getY(), rect->width, rect->height, 0, 0, rect->width, rect->height);
             }
             else
             {
-                image->draw(rect->getX(), rect->getY(), rect->width, rect->height);
+                image.draw(rect->getX(), rect->getY(), rect->width, rect->height);
             }
         }
     }
@@ -100,7 +99,7 @@ void ofxUIImage::setCropImageToFitRect(bool _cropImageToFitRect)
     cropImageToFitRect = _cropImageToFitRect;
 }
 
-void ofxUIImage::setImage(ofImage *_image)
+void ofxUIImage::setImage(ofImage _image)
 {
     image = _image;
 }

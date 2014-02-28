@@ -1811,9 +1811,10 @@ ofxUIMovingGraph* ofxUICanvas::addMovingGraph(string _name, vector<float> _buffe
     return widget;
 }
 
+//c
 ofxUIImage* ofxUICanvas::addImage(string _name, ofImage *_image, float _w, float _h, bool _showLabel)
 {
-    ofxUIImage* widget = new ofxUIImage(_w, _h, _image, _name, _showLabel);
+    ofxUIImage* widget = new ofxUIImage(_w, _h, *_image, _name, _showLabel); // *
     addWidgetPosition(widget, widgetPosition, widgetAlign);
     return widget;
 }
@@ -1822,7 +1823,7 @@ ofxUIImage* ofxUICanvas::addImage(string _name, ofImage *_image, bool _showLabel
 {
     float _w = rect->getWidth()-widgetSpacing*2;
     float _h = _w*(float)_image->getHeight()/(float)_image->getWidth();
-    ofxUIImage* widget = new ofxUIImage(_w, _h, _image, _name, _showLabel);
+    ofxUIImage* widget = new ofxUIImage(_w, _h, *_image, _name, _showLabel);// *
     addWidgetPosition(widget, widgetPosition, widgetAlign);
     return widget;
 }
@@ -1844,7 +1845,7 @@ ofxUIBaseDraws* ofxUICanvas::addBaseDraws(string _name, ofBaseDraws *_base, bool
 }
 ofxUIImageSampler* ofxUICanvas::addImageSampler(string _name, ofImage *_image, float _w, float _h)
 {
-    ofxUIImageSampler* widget = new ofxUIImageSampler(_w, _h, _image, _name);
+    ofxUIImageSampler* widget = new ofxUIImageSampler(_w, _h, *_image, _name);
     addWidgetPosition(widget, widgetPosition, widgetAlign);
     return widget;
 }
@@ -1853,7 +1854,7 @@ ofxUIImageSampler* ofxUICanvas::addImageSampler(string _name, ofImage *_image)
 {
     float _w = rect->getWidth()-widgetSpacing*2;
     float _h = _w*(float)_image->getHeight()/(float)_image->getWidth();
-    ofxUIImageSampler* widget = new ofxUIImageSampler(_w, _h, _image, _name);
+    ofxUIImageSampler* widget = new ofxUIImageSampler(_w, _h, *_image, _name);
     addWidgetPosition(widget, widgetPosition, widgetAlign);
     return widget;
 }
@@ -2059,7 +2060,6 @@ ofxUIMultiImageToggle* ofxUICanvas::addMultiImageToggle(string _name, string _pa
     addWidgetPosition(widget, widgetPosition, widgetAlign);
     return widget;
 }
-//
 
 ofxUITextArea* ofxUICanvas::addTextArea(string _name, string _textstring, int _size)
 {
