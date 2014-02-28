@@ -70,3 +70,9 @@ Desktop.ini
 
 #Android
 .csettings
+
+
+# myIgnores #
+#############
+example-*/
+
