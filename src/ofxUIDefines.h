@@ -35,11 +35,11 @@
 	#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
 //	#define OFX_UI_FONT_NAME "sans-serif"
 #endif
-											// Originals:
-#define OFX_UI_FONT_RESOLUTION 144			// 150
-#define OFX_UI_FONT_LARGE_SIZE 14			// 10
-#define OFX_UI_FONT_MEDIUM_SIZE 8			// 8
-#define OFX_UI_FONT_SMALL_SIZE 6			// 6
+												// Originals:
+#define OFX_UI_FONT_RESOLUTION 144				// 150
+#define OFX_UI_FONT_LARGE_SIZE 14				// 10
+#define OFX_UI_FONT_MEDIUM_SIZE 8				// 8
+#define OFX_UI_FONT_SMALL_SIZE 6				// 6
 // end NeuroTweeter
 
 #define OFX_UI_LABEL_DRAW_BACK false
@@ -49,11 +49,11 @@
 #define OFX_UI_STATE_DOWN 2
 #define OFX_UI_STATE_SUSTAINED 3
 
-#define OFX_UI_GLOBAL_PADDING 0				//2
-#define OFX_UI_GLOBAL_WIDGET_SPACING 10		//4
-#define OFX_UI_GLOBAL_CANVAS_WIDTH 411		//211
+#define OFX_UI_GLOBAL_PADDING 2					//2
+#define OFX_UI_GLOBAL_WIDGET_SPACING 10			//4
+#define OFX_UI_GLOBAL_CANVAS_WIDTH 411			//211
 #define OFX_UI_GLOBAL_SLIDER_HEIGHT 16
-#define OFX_UI_GLOBAL_SLIDER_WIDTH 25 		//NeuroTwitter
+#define OFX_UI_GLOBAL_SLIDER_WIDTH 25			//NeuroTwitter
 #define OFX_UI_GLOBAL_GRAPH_HEIGHT 64
 #define OFX_UI_GLOBAL_BUTTON_DIMENSION 16
 #define OFX_UI_GLOBAL_SPACING_HEIGHT 1
