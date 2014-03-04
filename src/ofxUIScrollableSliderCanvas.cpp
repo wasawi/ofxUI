@@ -397,14 +397,30 @@ void ofxUIScrollableSliderCanvas::draw()
 	
 	if (bFBO) {
 		fbo.begin();
-
-		// OK this is a very ugly hack..
-		// this color is half of the double of the back color (50) which is 75.
-		// it is very hard to get around this problem:
-		// http://forum.openframeworks.cc/t/fbo-problems-with-alpha/1643/10
-		// http://forum.openframeworks.cc/t/weird-problem-rendering-semi-transparent-image-to-fbo/2215/4
-		ofClear(75);
-		ofClearAlpha();
+		/*
+		 OK this is a very ugly hack..
+		 this color is half of the double of the back color (50) which is 75.
+		 it is very hard to get around this problem:
+		 http://forum.openframeworks.cc/t/fbo-problems-with-alpha/1643/10
+		 http://forum.openframeworks.cc/t/weird-problem-rendering-semi-transparent-image-to-fbo/2215/4
+		 
+		 Some tests:
+		 left value: OFX_UI_COLOR_BACK_ALPHA 100
+		 right value: equivalent in ofClear();
+		 (this only works when ofBackground is default)
+		 0      200
+		 20     184
+		 50     158
+		 100    108
+		 150    59
+		 180    35
+		 200    20
+		 255    20
+		 */
+		
+		
+        ofClear(40);
+        ofClearAlpha();
 	}
 	
     ofxUIPushStyle();
