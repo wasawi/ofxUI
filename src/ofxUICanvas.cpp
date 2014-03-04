@@ -1650,6 +1650,37 @@ ofxUI2DPad* ofxUICanvas::add2DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _
     return widget;
 }
 
+ofxUI3DPad* ofxUICanvas::add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f _value, ofxUI3DPadViewPoint _vP)
+{
+    float dim = rect->getWidth()-widgetSpacing*2;
+    ofxUI3DPad* widget = new ofxUI3DPad(_name, _rangeX, _rangeY, _rangeZ, _value, dim, dim, 0, 0, _vP);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+
+ofxUI3DPad* ofxUICanvas::add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f _value, float w, float h, float x, float y, ofxUI3DPadViewPoint _vP)
+{
+    ofxUI3DPad* widget = new ofxUI3DPad(_name, _rangeX, _rangeY, _rangeZ, _value, w, h, x, y, _vP);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+ofxUI3DPad* ofxUICanvas::add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f *_value, ofxUI3DPadViewPoint _vP)
+{
+    float dim = rect->getWidth()-widgetSpacing*2;
+    ofxUI3DPad* widget = new ofxUI3DPad(_name, _rangeX, _rangeY, _rangeZ, _value, dim, dim, 0, 0, _vP);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+ofxUI3DPad* ofxUICanvas::add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f *_value, float w, float h, float x, float y, ofxUI3DPadViewPoint _vP)
+{
+    ofxUI3DPad* widget = new ofxUI3DPad(_name, _rangeX, _rangeY, _rangeZ, _value, w, h, x, y, _vP);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
 ofxUITextInput* ofxUICanvas::addTextInput(string _name, string _textstring, int _size)
 {
     float h = 0;

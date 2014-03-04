@@ -193,7 +193,12 @@ public:
     ofxUI2DPad* add2DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _value, float w, float h, float x = 0, float y = 0);
     ofxUI2DPad* add2DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f *_value);
     ofxUI2DPad* add2DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f *_value, float w, float h, float x = 0, float y = 0);
-        
+
+	ofxUI3DPad* add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f _value, ofxUI3DPadViewPoint _vP);
+    ofxUI3DPad* add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f _value, float w, float h, float x = 0, float y = 0, ofxUI3DPadViewPoint _vP = OFX_UI_FRONT);
+    ofxUI3DPad* add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f *_value, ofxUI3DPadViewPoint _vP);
+    ofxUI3DPad* add3DPad(string _name, ofxUIVec3f _rangeX, ofxUIVec3f _rangeY, ofxUIVec3f _rangeZ, ofxUIVec3f *_value, float w, float h, float x = 0, float y = 0, ofxUI3DPadViewPoint _vP = OFX_UI_FRONT);
+	
     ofxUITextInput* addTextInput(string _name, string _textstring, int _size = -1);
     ofxUITextInput* addTextInput(string _name, string _textstring, float w, float h = 0, float x = 0, float y = 0, int _size = -1);
     

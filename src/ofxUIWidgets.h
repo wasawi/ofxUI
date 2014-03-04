@@ -40,6 +40,7 @@
 #include "ofxUIMultiImageToggle.h"
 #include "ofxUIRadio.h"
 #include "ofxUI2DPad.h"
+#include "ofxUI3DPad.h"					//j
 #include "ofxUI2DGraph.h"
 #include "ofxUITextInput.h"
 #include "ofxUITextArea.h"
