@@ -26,10 +26,21 @@
 
 #include "ofMain.h"
 #include "ofPoint.h"
+#include "ofxFTGLSimpleLayout.h"
+
 
 #ifndef OFX_UI_FONT_RENDERER
+#ifdef USE_FTGL
+#define OFX_UI_FONT_RENDERER ofxFTGLSimpleLayout
+#else
 #define OFX_UI_FONT_RENDERER ofTrueTypeFont
 #endif
+#endif
+
+
+//#ifndef OFX_UI_FONT_RENDERER
+//#define OFX_UI_FONT_RENDERER ofTrueTypeFont
+//#endif
 
 typedef ofVec3f ofxUIVec3f;
 typedef ofVec2f ofxUIVec2f;
