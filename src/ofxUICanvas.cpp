@@ -412,8 +412,12 @@ void ofxUICanvas::setFontSize(ofxUIWidgetFontType _kind, int _size, int _resolut
                 delete font_large;
             }
             font_large = new ofxUIFont();
-            font_large->loadFont(fontName,_size,true, true, false, 0.0,_resolution);
-            break;
+#ifdef USE_FTGL
+            font_large->loadFont(fontName, _size, true, true);//, false, 0.0,_resolution);
+#else
+			font_large->loadFont(fontName, _size, true, true, false, 0.0,_resolution);
+#endif
+			break;
             
         case OFX_UI_FONT_MEDIUM:
             if(font_medium != NULL)
@@ -421,7 +425,11 @@ void ofxUICanvas::setFontSize(ofxUIWidgetFontType _kind, int _size, int _resolut
                 delete font_medium;
             }
             font_medium = new ofxUIFont();
-            font_medium->loadFont(fontName,_size,true, true, false, 0.0,_resolution);
+#ifdef USE_FTGL
+            font_medium->loadFont(fontName,_size, true, true);//, false, 0.0,_resolution);
+#else
+            font_medium->loadFont(fontName,_size, true, true, false, 0.0,_resolution);
+#endif
             break;
             
         case OFX_UI_FONT_SMALL:
@@ -430,7 +438,11 @@ void ofxUICanvas::setFontSize(ofxUIWidgetFontType _kind, int _size, int _resolut
                 delete font_small;
             }
             font_small = new ofxUIFont();
-            font_small->loadFont(fontName,_size,true, true, false, 0.0,_resolution);
+#ifdef USE_FTGL
+            font_small->loadFont(fontName,_size, true, true);//, false, 0.0,_resolution);
+#else
+            font_small->loadFont(fontName,_size, true, true, false, 0.0,_resolution);
+#endif
             break;
     }
 }
@@ -3146,7 +3158,11 @@ bool ofxUICanvas::updateFont(ofxUIWidgetFontType _kind, string filename, int fon
                 delete font_large;
             }
             font_large = new ofxUIFont();
-            success = font_large->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#ifdef USE_FTGL
+			success = font_large->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet);//, makeContours, simplifyAmt,dpi);
+#else
+			success = font_large->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#endif
             break;
             
         case OFX_UI_FONT_MEDIUM:
@@ -3155,7 +3171,11 @@ bool ofxUICanvas::updateFont(ofxUIWidgetFontType _kind, string filename, int fon
                 delete font_medium;
             }
             font_medium = new ofxUIFont();
-            success = font_medium->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#ifdef USE_FTGL
+			success = font_medium->loadFont(filename,fontsize);//,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#else
+			success = font_medium->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#endif
             break;
             
         case OFX_UI_FONT_SMALL:
@@ -3164,7 +3184,12 @@ bool ofxUICanvas::updateFont(ofxUIWidgetFontType _kind, string filename, int fon
                 delete font_small;
             }
             font_small = new ofxUIFont();
-            success = font_small->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#ifdef USE_FTGL
+			success = font_small->loadFont(filename,fontsize);//,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#else
+			success = font_small->loadFont(filename,fontsize,_bAntiAliased, _bFullCharacterSet, makeContours, simplifyAmt,dpi);
+#endif
+
             break;
     }
     return success;

@@ -28,6 +28,7 @@
 #include "ofPoint.h"
 #include "ofxFTGLSimpleLayout.h"
 
+#define USE_FTGL
 
 #ifndef OFX_UI_FONT_RENDERER
 #ifdef USE_FTGL

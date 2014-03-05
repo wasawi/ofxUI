@@ -32,7 +32,8 @@
     #define OFX_UI_FONT_NAME "GUI/Helvetica.ttf"
 #else
 // beguin NeuroTweeter
-	#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
+
+#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
 //	#define OFX_UI_FONT_NAME "sans-serif"
 #endif
 												// Originals:

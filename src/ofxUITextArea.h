@@ -37,6 +37,7 @@ public:
     string getTextString();
 	void setTextString(string s);
     void formatTextString();
+	void formatFTGLTextString();
 	void setParent(ofxUIWidget *_parent);
     void setDrawShadow(bool _drawShadow);
     
