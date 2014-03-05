@@ -51,7 +51,7 @@
 #define OFX_UI_STATE_SUSTAINED 3
 
 #define OFX_UI_GLOBAL_PADDING 2					//2
-#define OFX_UI_GLOBAL_WIDGET_SPACING 10			//4
+#define OFX_UI_GLOBAL_WIDGET_SPACING 4			//4
 #define OFX_UI_GLOBAL_CANVAS_WIDTH 411			//211
 #define OFX_UI_GLOBAL_SLIDER_HEIGHT 16
 #define OFX_UI_GLOBAL_SLIDER_WIDTH 25			//NeuroTwitter
@@ -68,10 +68,10 @@
 #define OFX_UI_COLOR_PADDED_OUTLINE_ALPHA 200
 
 #define OFX_UI_COLOR_BACK ofxUIColor(0, OFX_UI_COLOR_BACK_ALPHA)                                        //rect's back color
-#define OFX_UI_COLOR_OUTLINE ofxUIColor(255, 255, 255, OFX_UI_COLOR_OUTLINE_ALPHA)                      //rect's outline color
-#define OFX_UI_COLOR_OUTLINE_HIGHLIGHT ofxUIColor(255, 255, 255, OFX_UI_COLOR_OUTLINE_HIGHLIGHT_ALPHA)  //rect's onMouseOver outline highlight color
-#define OFX_UI_COLOR_FILL ofxUIColor(255, 255, 255, OFX_UI_COLOR_FILL_ALPHA)                            //rect's fill color
-#define OFX_UI_COLOR_FILL_HIGHLIGHT ofxUIColor(255, 255, 255, OFX_UI_COLOR_FILL_HIGHLIGHT_ALPHA)        //rect's onMouseDown highlight color
+#define OFX_UI_COLOR_OUTLINE ofxUIColor(0, 255, 255, OFX_UI_COLOR_OUTLINE_ALPHA)                      //rect's outline color
+#define OFX_UI_COLOR_OUTLINE_HIGHLIGHT ofxUIColor(0, 255, 255, OFX_UI_COLOR_OUTLINE_HIGHLIGHT_ALPHA)  //rect's onMouseOver outline highlight color
+#define OFX_UI_COLOR_FILL ofxUIColor(0, 255, 255, OFX_UI_COLOR_FILL_ALPHA)                            //rect's fill color
+#define OFX_UI_COLOR_FILL_HIGHLIGHT ofxUIColor(0, 255, 255, OFX_UI_COLOR_FILL_HIGHLIGHT_ALPHA)        //rect's onMouseDown highlight color
 #define OFX_UI_COLOR_PADDED ofxUIColor(0, OFX_UI_COLOR_PADDED_ALPHA)                                    //rect's padded color
 #define OFX_UI_COLOR_PADDED_OUTLINE ofxUIColor(255, OFX_UI_COLOR_PADDED_OUTLINE_ALPHA)                  //rect's padded outline color
 
