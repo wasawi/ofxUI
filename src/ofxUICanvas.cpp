@@ -1028,7 +1028,7 @@ void ofxUICanvas::removeWidget(ofxUIWidget *widget)
     
     if(widget->hasLabel())
     {
-        //            cout << "HAS LABEL" << endl;
+//		cout << "HAS LABEL" << endl;
         ofxUIWidgetWithLabel *wwl = (ofxUIWidgetWithLabel *) widget;
         ofxUILabel *label = wwl->getLabelWidget();
         removeWidget(label);
@@ -1036,14 +1036,16 @@ void ofxUICanvas::removeWidget(ofxUIWidget *widget)
     
     for(int i = 0; i < widget->getEmbeddedWidgetsSize(); i++)
     {
-        removeWidget(widget->getEmbeddedWidget(i));
+// NeuroTwitter:
+// diasble this functions to properly remove dropDownLists
+//        removeWidget(widget->getEmbeddedWidget(i));
     }
-    widget->clearEmbeddedWidgets();
+//    widget->clearEmbeddedWidgets();
     
     //	remove widget from lastAdded stack
     lastAddeds.erase( std::remove( lastAddeds.begin(), lastAddeds.end(), widget ), lastAddeds.end() );
     
-    delete widget;
+    //delete widget;
 }
 
 void ofxUICanvas::addWidget(ofxUIWidget *widget)
@@ -3035,6 +3037,7 @@ void ofxUICanvas::removeWidget(string _name)
     if(w != NULL)
     {
         removeWidget(w);
+		delete w;
     }
 }
 
