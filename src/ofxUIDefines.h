@@ -31,11 +31,14 @@
 #ifdef TARGET_OF_IOS
     #define OFX_UI_FONT_NAME "GUI/Helvetica.ttf"
 #else
-// beguin NeuroTweeter
 
+#ifdef USE_FTGL
 #define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
-//	#define OFX_UI_FONT_NAME "sans-serif"
+#else
+	#define OFX_UI_FONT_NAME "sans-serif"
 #endif
+#endif
+
 												// Originals:
 #define OFX_UI_FONT_RESOLUTION 144				// 150
 #define OFX_UI_FONT_LARGE_SIZE 14				// 10

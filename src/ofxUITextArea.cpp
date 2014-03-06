@@ -184,11 +184,13 @@ void ofxUITextArea::formatTextString()
     }
 }
 
+#ifdef USE_FTGL
 void ofxUITextArea::formatFTGLTextString()
 {
-	
     font = label->getFont();
+
     font->setLineLength(rect->getWidth()-padding*6);	//NOT SURE WHY 6...
+
 //	font->setLineLength(rect->getWidth()-padding);
 
 //	lineHeight = label->getStringHeight("1");
@@ -204,8 +206,8 @@ void ofxUITextArea::formatFTGLTextString()
         ofRectangle rec = font->getStringBoundingBox(textstring, 0, 0);
         rect->setHeight((rec.y*-1)+lineHeight);
     }
-	
 }
+#endif
 
 void ofxUITextArea::setParent(ofxUIWidget *_parent)
 {
