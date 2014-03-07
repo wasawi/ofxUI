@@ -1,0 +1,3 @@
+ofxUI
+ofxXmlSettings
+ofxFTGL
