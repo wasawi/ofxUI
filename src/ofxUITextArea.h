@@ -39,7 +39,11 @@ public:
     void formatTextString();
 	void setParent(ofxUIWidget *_parent);
     void setDrawShadow(bool _drawShadow);
-    
+
+#ifdef USE_FTGL
+	void formatFTGLTextString();
+#endif	
+	
 protected:    
 	string textstring;
     vector<string> textLines;

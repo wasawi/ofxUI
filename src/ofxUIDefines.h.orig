@@ -30,9 +30,8 @@
 
 #ifdef TARGET_OF_IOS
     #define OFX_UI_FONT_NAME "GUI/Helvetica.ttf"
-#elif defined USE_FTGL
-	#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
 #else
+<<<<<<< HEAD
     #define OFX_UI_FONT_NAME "sans-serif"
 #endif
 
@@ -40,6 +39,22 @@
 #define OFX_UI_FONT_LARGE_SIZE 10
 #define OFX_UI_FONT_MEDIUM_SIZE 8
 #define OFX_UI_FONT_SMALL_SIZE 6
+=======
+
+#ifdef USE_FTGL
+#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
+#else
+	#define OFX_UI_FONT_NAME "sans-serif"
+#endif
+#endif
+
+												// Originals:
+#define OFX_UI_FONT_RESOLUTION 144				// 150
+#define OFX_UI_FONT_LARGE_SIZE 14				// 10
+#define OFX_UI_FONT_MEDIUM_SIZE 8				// 8
+#define OFX_UI_FONT_SMALL_SIZE 6				// 6
+// end NeuroTweeter
+>>>>>>> 84ea3df... Fixed defines for FTGL
 
 #define OFX_UI_LABEL_DRAW_BACK false
 

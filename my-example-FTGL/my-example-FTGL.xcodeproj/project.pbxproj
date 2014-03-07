@@ -1257,80 +1257,6 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>D36002B8FA55F27739C9B37B</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.c.h</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUIScrollSlider.h</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUIScrollSlider.h</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
-			<key>71D220E16245067F59A3637C</key>
-			<dict>
-				<key>fileRef</key>
-				<string>EF508CDF0BA90E21BAF48849</string>
-				<key>isa</key>
-				<string>PBXBuildFile</string>
-			</dict>
-			<key>EF508CDF0BA90E21BAF48849</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.cpp.cpp</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUIScrollSlider.cpp</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUIScrollSlider.cpp</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
-			<key>A496AFCB33272C03A78C058C</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.c.h</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUIScrollableSliderCanvas.h</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUIScrollableSliderCanvas.h</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
-			<key>3CB7D2F1C94EDF626EA83342</key>
-			<dict>
-				<key>fileRef</key>
-				<string>629904C075E9391E0D36155C</string>
-				<key>isa</key>
-				<string>PBXBuildFile</string>
-			</dict>
-			<key>629904C075E9391E0D36155C</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.cpp.cpp</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUIScrollableSliderCanvas.cpp</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUIScrollableSliderCanvas.cpp</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
 			<key>C38D6DCC3AB9AAE213A64015</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -2197,6 +2123,28 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>A692AEE53E0381DD4B1781BD</key>
+			<dict>
+				<key>fileRef</key>
+				<string>3CA3EB566591846A9C786113</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>3CA3EB566591846A9C786113</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>file</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxUIDefines.h.orig</string>
+				<key>path</key>
+				<string>../../../addons/ofxUI/src/ofxUIDefines.h.orig</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>AEFCF7E549ACA862C022AD40</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -2397,43 +2345,6 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>472DCC924D4D7C7F31D0D9DA</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.c.h</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUI3DPad.h</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUI3DPad.h</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
-			<key>BB103377011B50FCE49206EE</key>
-			<dict>
-				<key>fileRef</key>
-				<string>ECDF616DC7538892E15BF2B5</string>
-				<key>isa</key>
-				<string>PBXBuildFile</string>
-			</dict>
-			<key>ECDF616DC7538892E15BF2B5</key>
-			<dict>
-				<key>explicitFileType</key>
-				<string>sourcecode.cpp.cpp</string>
-				<key>fileEncoding</key>
-				<string>30</string>
-				<key>isa</key>
-				<string>PBXFileReference</string>
-				<key>name</key>
-				<string>ofxUI3DPad.cpp</string>
-				<key>path</key>
-				<string>../../../addons/ofxUI/src/ofxUI3DPad.cpp</string>
-				<key>sourceTree</key>
-				<string>SOURCE_ROOT</string>
-			</dict>
 			<key>961DE8B564EF22E65C9480AE</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -2517,8 +2428,6 @@
 					<string>653CFAE31336DAA04B1F1503</string>
 					<string>1553D7111BCBE7834BCC0784</string>
 					<string>961DE8B564EF22E65C9480AE</string>
-					<string>ECDF616DC7538892E15BF2B5</string>
-					<string>472DCC924D4D7C7F31D0D9DA</string>
 					<string>28155024C27152A66926B553</string>
 					<string>C161222F68D4F7CE28BC4F61</string>
 					<string>876BBA9542E267584885CAD8</string>
@@ -2530,6 +2439,7 @@
 					<string>2556100026B425E8370BCF75</string>
 					<string>EDFEB3D8C9183ADE3FACB4B5</string>
 					<string>AEFCF7E549ACA862C022AD40</string>
+					<string>3CA3EB566591846A9C786113</string>
 					<string>FFD5D3C9D38E29DB72B32254</string>
 					<string>3C9066FB257B904A547019ED</string>
 					<string>31517A9D3D67D9C054954DC5</string>
@@ -2577,10 +2487,6 @@
 					<string>885850B62FAD08EB1D2F0BF4</string>
 					<string>BFD3387AA9EFA53E1B4F087B</string>
 					<string>C38D6DCC3AB9AAE213A64015</string>
-					<string>629904C075E9391E0D36155C</string>
-					<string>A496AFCB33272C03A78C058C</string>
-					<string>EF508CDF0BA90E21BAF48849</string>
-					<string>D36002B8FA55F27739C9B37B</string>
 					<string>0DE8B77977749C1835A9472B</string>
 					<string>470B5D2AC2F616D10B2E6025</string>
 					<string>5613D5D24B00D8AD909F7E6A</string>
@@ -3221,12 +3127,12 @@
 					<string>E4B69E210A3A1BDC003C02F2</string>
 					<string>9F5C6DD965B4F3A6DB5B88F8</string>
 					<string>4B3ED367CA852D522E2EE996</string>
-					<string>BB103377011B50FCE49206EE</string>
 					<string>F1E8DE8734BA6F69A5112FA8</string>
 					<string>C381F2B7CFD84C0E540EB4BC</string>
 					<string>7D393646FB859A930EF58917</string>
 					<string>7BE46522B64E24FAEDE1A25D</string>
 					<string>DF0C851B244C4C867CEA8806</string>
+					<string>A692AEE53E0381DD4B1781BD</string>
 					<string>9BE4AE0AA2B8C436BDFE9D4D</string>
 					<string>F392A99D83698FC099127880</string>
 					<string>084025DA517D8329301FE1B6</string>
@@ -3250,8 +3156,6 @@
 					<string>59C5F2F5D7254C33C00F97CB</string>
 					<string>FE0F1DB69ACCD163E9DA2A15</string>
 					<string>43BADBB2FE0F17D34B57A705</string>
-					<string>3CB7D2F1C94EDF626EA83342</string>
-					<string>71D220E16245067F59A3637C</string>
 					<string>740A58CBFDFE578C83A349AF</string>
 					<string>ADE7C2AFC51E3F7E5E389026</string>
 					<string>BFEFCE32DAFE10A8EB519F6C</string>
@@ -3327,7 +3231,7 @@
 				<key>isa</key>
 				<string>PBXNativeTarget</string>
 				<key>name</key>
-				<string>my-example-CustomFont</string>
+				<string>my-example-FTGL</string>
 				<key>productName</key>
 				<string>myOFApp</string>
 				<key>productReference</key>
@@ -3344,7 +3248,7 @@
 				<key>isa</key>
 				<string>PBXFileReference</string>
 				<key>path</key>
-				<string>my-example-CustomFontDebug.app</string>
+				<string>my-example-FTGLDebug.app</string>
 				<key>sourceTree</key>
 				<string>BUILT_PRODUCTS_DIR</string>
 			</dict>

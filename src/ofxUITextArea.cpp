@@ -184,11 +184,40 @@ void ofxUITextArea::formatTextString()
     }
 }
 
+#ifdef USE_FTGL
+void ofxUITextArea::formatFTGLTextString()
+{
+//    font = label->getFont();
+    font->setLineLength(rect->getWidth()-padding*6);	//NOT SURE WHY 6...
+
+//	lineHeight = label->getStringHeight("1");
+    lineHeight = font->getLineHeight()*.7;
+    lineSpaceSize = padding*2;
+	offsetY = floor(padding*.125);
+
+	textLines.push_back(textstring);
+
+	if(autoSize)
+    {
+//		rect->setHeight((lineHeight+lineSpaceSize)*textLines.size()-lineSpaceSize); //originally
+        ofRectangle rec = font->getStringBoundingBox(textstring, 0, 0);
+        rect->setHeight((rec.y*-1)+lineHeight);
+    }
+}
+#endif
+
 void ofxUITextArea::setParent(ofxUIWidget *_parent)
 {
+#ifndef USE_FTGL
     parent = _parent;
     formatTextString();
     calculatePaddingRect();
+#else
+    parent = _parent;
+	formatFTGLTextString();
+    calculatePaddingRect();
+#endif
+
 }
 
 void ofxUITextArea::setDrawShadow(bool _drawShadow)
