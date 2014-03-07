@@ -23,10 +23,9 @@ void ofApp::setup()
 
 	gui->addSpacer();
 	gui->addLabel("BACKGROUND CONTROL");
-	gui->addSlider("BGR", 0, 255, backgroundColor.r);
-	gui->addSlider("BGR", 0, 255, backgroundColor.g);
-	gui->addSlider("BGR", 0, 255, backgroundColor.b);
-
+	gui->addTextArea("TextArea", "this is a text area いいです！！");
+	gui->addTextInput("TextArea", "this is a text area いいです！！");
+	
 	gui->addSpacer();
 	gui->addLabelToggle("DRAW PADDING", drawPadding);
 	gui->addLabelToggle("SPACER COLOR", true);
