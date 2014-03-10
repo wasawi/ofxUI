@@ -22,8 +22,9 @@ class ofApp : public ofBaseApp
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
-	ofxUICanvas *gui;
+	ofxUICanvas *gui, *gui2;
 	void guiEvent(ofxUIEventArgs &e);
+	void gui2Event(ofxUIEventArgs &e);
     bool drawPadding;         
     ofColor backgroundColor; 
 };

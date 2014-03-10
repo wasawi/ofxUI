@@ -38,6 +38,7 @@
 #endif
 #endif
 
+
 typedef ofVec3f ofxUIVec3f;
 typedef ofVec2f ofxUIVec2f;
 typedef OFX_UI_FONT_RENDERER ofxUIFont;

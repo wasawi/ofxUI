@@ -113,6 +113,7 @@ public:
     
     virtual void setState(int _state);
     virtual void setFont(ofxUIFont *_font);
+	virtual ofxUIFont& getFont();
 
     virtual void setPadding(float _padding);
     virtual float getPadding();

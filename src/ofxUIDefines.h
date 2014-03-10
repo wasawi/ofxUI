@@ -29,11 +29,11 @@
 #endif
 
 #ifdef TARGET_OF_IOS
-    #define OFX_UI_FONT_NAME "GUI/Helvetica.ttf"
+	#define OFX_UI_FONT_NAME "GUI/Helvetica.ttf"
 #elif defined USE_FTGL
-	#define OFX_UI_FONT_NAME "fonts/Arial Unicode.ttf"
+	#define OFX_UI_FONT_NAME "GUI/Arial Unicode.ttf"
 #else
-    #define OFX_UI_FONT_NAME "sans-serif"
+	#define OFX_UI_FONT_NAME "sans-serif"
 #endif
 
 #define OFX_UI_FONT_RESOLUTION 150

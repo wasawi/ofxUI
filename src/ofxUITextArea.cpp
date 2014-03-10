@@ -187,8 +187,8 @@ void ofxUITextArea::formatTextString()
 #ifdef USE_FTGL
 void ofxUITextArea::formatFTGLTextString()
 {
-//    font = label->getFont();
-    font->setLineLength(rect->getWidth()-padding*6);	//NOT SURE WHY 6...
+    font = &label->getFont();
+    font->setLineLength(rect->getWidth()-padding*font->getSize());
 
 //	lineHeight = label->getStringHeight("1");
     lineHeight = font->getLineHeight()*.7;
@@ -224,3 +224,4 @@ void ofxUITextArea::setDrawShadow(bool _drawShadow)
 {
     drawShadow = _drawShadow;
 }
+

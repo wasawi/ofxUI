@@ -109,10 +109,19 @@ void ofxUILabel::drawFill()
 {
     if(draw_fill)
     {
+		ofPushStyle();
+		ofSetColor(255,50);
+		float lineHeight = font->getLineHeight();
+		ofRectangle rec = font->getStringBoundingBox(label, 0, 0);
+		ofRect(floor(rect->getX())+xOffset, floor(rect->getY())+yOffset, rec.width, rec.height);
+		ofRect(floor(rect->getX())+xOffset, floor(rect->getY())+yOffset, rect->getWidth(), rect->getHeight());
+		ofPopStyle();
+
         ofxUIFill();
         ofxUISetColor(color_fill);
-        font->drawString(label, floor(rect->getX())+xOffset, floor(rect->getY()+rect->getHeight())+yOffset);
-    }
+		font->drawString(label, floor(rect->getX())+xOffset, floor((rect->getY())+rect->getHeight())+yOffset);
+//		font->drawString(label, floor(rect->getX())+xOffset, floor(rec.y*-1));
+	}
 }
 
 void ofxUILabel::drawFillHighlight()
@@ -121,7 +130,7 @@ void ofxUILabel::drawFillHighlight()
     {
         ofxUIFill();
         ofxUISetColor(color_fill_highlight);
-        font->drawString(label, floor(rect->getX())+xOffset, floor(rect->getY()+rect->getHeight())+yOffset);
+		font->drawString(label, floor(rect->getX())+xOffset, floor(rect->getY()+rect->getHeight())+yOffset);
     }
 }
 
@@ -163,7 +172,7 @@ ofxUILabel* ofxUILabel::getLabelWidget()
 {
     return this;
 }
-
+#ifndef USE_FTGL
 void ofxUILabel::setLabel(string _label)
 {
     label = string(_label);
@@ -195,6 +204,66 @@ void ofxUILabel::setLabel(string _label)
         xOffset = 0;
     }
 }
+#else
+void ofxUILabel::setLabel(string _label)
+{
+    label = string(_label);
+    if(autoSize)
+    {
+		cout << "*****************************"<< endl;
+		cout << "label  =" << label << endl;
+
+		float w = font->getLineLength();
+		float h = font->getLineHeight();
+
+		cout << "getLineLength	=" << w << endl;
+		cout << "getLineHeight	=" << h << endl;
+		
+		float lineHeight = font->getLineHeight();
+		ofRectangle rec = font->getStringBoundingBox(label, 0, 0);
+		//rect->setHeight((rec.y*-1)+ h);
+		//rect->setWidth((rec.x*-1)+ w);
+		cout << "rec.x	=" << rec.x << endl;
+		cout << "rec.y	=" << rec.y << endl;
+		cout << "rec.w	=" << rec.width << endl;
+		cout << "rec.h	=" << rec.height << endl;
+
+		
+		rect->width		= rec.width;
+		rect->height	= (rec.y*-1)+lineHeight;
+//		rect->setWidth(rec.width);
+//		rect->setHeight((rec.y*-1)+lineHeight);
+//		rect->height=10;
+		
+
+		w = font->stringWidth(label);
+		h = font->stringHeight("1");          //otherwise we get some funky non-uniform spacing :(
+		rect->setWidth(w);
+		rect->setHeight(h);
+		xOffset = 0;		// we need to set this otherwise bad things will happen!
+		yOffset = 0;		// we need to set this otherwise bad things will happen!
+
+    }
+    else
+    {
+        while(getStringWidth(label) > rect->getWidth()-padding*4.0 && label.size())
+        {
+            label = label.substr(0, label.size()-1);
+        }
+        float h = (int)font->stringHeight("1");     //otherwise we get some funky non-uniform spacing :(
+        if(rect->getHeight() > 0)
+        {
+            yOffset = 0;
+        }
+        else
+        {
+            rect->setHeight(h);
+            yOffset = 0;
+        }
+        xOffset = 0;
+    }
+}
+#endif
 
 bool ofxUILabel::getAutoSize()
 {
