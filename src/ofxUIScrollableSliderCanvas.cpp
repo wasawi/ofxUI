@@ -457,7 +457,7 @@ void ofxUIScrollableSliderCanvas::draw()
 {
 	
 //	ofEnableAlphaBlending();
-	ofDisableAlphaBlending();
+
 	
 	if (bFBO) {
 		fbo->begin();
@@ -481,6 +481,7 @@ void ofxUIScrollableSliderCanvas::draw()
 		 200    20
 		 255    20
 		 */
+	ofDisableAlphaBlending();
 		
 //		ofClear(0);
 		ofClear(0, 0);
