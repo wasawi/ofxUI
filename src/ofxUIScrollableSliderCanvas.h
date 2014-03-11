@@ -30,7 +30,7 @@ class ofxUIScrollableSliderCanvas : public ofxUICanvas
 {    
 public:    
     ~ofxUIScrollableSliderCanvas();
-    ofxUIScrollableSliderCanvas(float x, float y, float w, float h, float sliderW);
+    ofxUIScrollableSliderCanvas(float x=0, float y=0, float w=10, float h=10, float sliderW=20);
 //    ofxUIScrollableSliderCanvas(float x, float y, float w, float h, ofxUICanvas *sharedResources);
     ofxUIScrollableSliderCanvas();
     ofxUIScrollableSliderCanvas(ofxUICanvas *sharedResources);
@@ -60,15 +60,22 @@ public:
     virtual void setPosition(int x, int y);
     virtual void setDimensions(float _width, float _height);
 	void drawScrollableRect();
+
 	//c & j
-	void setFBOArea(float x, float y, float w, float h);
+	void enableScrollBar();
+	void disableScrollBar();
+	void toggleScrollBar();
+	void enableFBO();
+	void disableFBO();
+	void toggleFBO();
+
 	void setScrollingDimensions(float _width, float _height, float _widthInternal, float _heightInternal);
     void setMappedScrollPos(float _posScroll);
 	ofVec2f calcHeightContents(vector<ofxUIWidget*> _auxwidgets);
 	void updateScrollPosition(int max);
-	void updateScrollBarSize(vector<ofxUIWidget*> _auxwidgets, float maxrange, float minrange);
+	void updateScrollBarSize(float maxrange, float minrange);
 	void setupScrollBar(string _name, float _min, float _max, int _lowvalue, int _highvalue, int _w, int _h, int _x, int _y, int _size);
-
+	void setSliderWidth(float _sliderW);
 
 #ifdef OFX_UI_TARGET_TOUCH
     void touchDown(float x, float y, int id);
@@ -84,9 +91,7 @@ public:
 	
 	//c & j
 	void guiEvent(ofxUIEventArgs &e);
-	ofxUICanvas* getScroll(); // TODO try to find a better name
-	void adjustContentstoGui(bool bsnap = false);
-
+	void adjustContentstoGui();
 
 protected:
     ofxUIRectangle *sRect;
@@ -103,10 +108,12 @@ protected:
     float stickyDistance;    
 	
 	//c & j
-	ofFbo fbo;    //experimental
-    ofxUIRectangle *FBORect;
+	ofFbo *fbo;				//experimental
+    ofxUIRectangle *fboRect;
 	bool bFBO;
-	float posScrollbar;//Direct scrolling
+	bool bScrollBar;
+	float posScrollbar;		//Direct scrolling
+	ofPoint scrollSize;
 	int heightContents;
 	
 	ofxUICanvas *gui_slider;
