@@ -34,7 +34,7 @@ ofxUIScrollableSliderCanvas::~ofxUIScrollableSliderCanvas()
 
 ofxUIScrollableSliderCanvas::ofxUIScrollableSliderCanvas(float x, float y, float w, float h, float sliderW) : ofxUICanvas(x,y,w,h)
 {
-	scrollSize.x	= sliderW;
+	scrollRect.width	= sliderW;
 	initScrollable();
 }
 
@@ -63,7 +63,7 @@ void ofxUIScrollableSliderCanvas::initScrollable()
     scrollX = false;
     scrollY = true;
 
-	scrollSize.x = 20;
+	scrollRect.width = 20;
 	bScrollBar=false;
 	
     nearTop = true;
@@ -84,13 +84,13 @@ void ofxUIScrollableSliderCanvas::initScrollable()
 #endif
 }
 
-void ofxUIScrollableSliderCanvas::setupScrollBar(string _name, float _min, float _max, int _lowvalue, int _highvalue, int _w, int _h, int _x, int _y, int _size){
+void ofxUIScrollableSliderCanvas::setupScrollBar(string _name, float _min, float _max, float _lowvalue, float _highvalue, int _w, int _h, int _x, int _y, int _size){
 
-	gui_slider = new ofxUICanvas(_x, _y, _w, _h);
-	gui_slider->setDrawBack(true);
+	sliderCanvas = new ofxUICanvas(_x, _y, _w, _h);
+	sliderCanvas->setDrawBack(true);
 	float spacing = 0.1;
-	gui_slider->setWidgetSpacing(spacing);
-	gui_slider->addWidgetRight(new ofxUIScrollSlider(_name,
+	sliderCanvas->setWidgetSpacing(spacing);
+	sliderWidget = (ofxUIScrollSlider*)sliderCanvas->addWidgetRight(new ofxUIScrollSlider(_name,
 													 _min,
 													 _max,
 													 _lowvalue,
@@ -100,9 +100,10 @@ void ofxUIScrollableSliderCanvas::setupScrollBar(string _name, float _min, float
 													 _x,
 													 _y,
 													 OFX_UI_FONT_SMALL));
-	gui_slider->setDrawPaddingOutline(false);
 	
-	ofAddListener(gui_slider->newGUIEvent,this,&ofxUIScrollableSliderCanvas::guiEvent);
+	sliderCanvas->setDrawPaddingOutline(false);
+	
+	ofAddListener(sliderCanvas->newGUIEvent,this,&ofxUIScrollableSliderCanvas::guiEvent);
 }
 
 void ofxUIScrollableSliderCanvas::setDamping(float _damping)
@@ -115,45 +116,59 @@ void ofxUIScrollableSliderCanvas::setSnapping(bool _snapping)
     snapping = _snapping;
 }
 
-void ofxUIScrollableSliderCanvas::enableScrollBar()
+void ofxUIScrollableSliderCanvas::enableScrollBar()		////j ***********************
 {
 	bScrollBar=true;
+	
+	// how big is the scrollbar?
+	scrollRect.height = getVisibleCanvasPercent().y;
+	cout << "scrollRect.height = "<< scrollRect.height<< endl;
+	
 	setupScrollBar("_Scroll",					// string _name,
 				   0,							// float _min,
-				   rect->getHeight(),			// float _max,
+				   1,							// float _max,
 				   0,							// int _lowvalue,
-				   rect->getHeight(),			// int _highvalue,
-				   scrollSize.x,				// int _w,
-				   rect->getHeight(),			// int _h,
-				   rect->x+rect->getWidth(),	// int _x,
-				   rect->y,						// int _y,
+				   scrollRect.height,			// int _highvalue,
+				   scrollRect.width,			// int _w,
+				   sRect->getHeight(),			// int _h,
+				   sRect->x+sRect->getWidth(),	// int _x,
+				   sRect->y,					// int _y,
 				   OFX_UI_FONT_SMALL);
-	snapping = false;
-	adjustContentstoGui();
+
+	ofVec2f position = 	ofVec2f(1,1);
+	position = getCanvasPosition();
+	cout << "canvas position = "<<position<< endl;
+
+//	updateScrollBarSize();
+	updateScrollBarPosition();
+
+	//	this must be called in your application after creating widgets
+//	autoSizeToFitWidgets();
 	
-    sRect->x = rect->x;
-    sRect->y = rect->y;
-    sRect->setWidth(rect->width);
-    sRect->setHeight(rect->height);
-    paddedRect->setWidth(rect->width+padding*2);
-    paddedRect->setHeight(rect->height+padding*2);
-	this->setGlobalCanvasWidth(23);
+//	sRect->x = rect->x;
+//	sRect->y = rect->y;
+//	sRect->setWidth(rect->width);
+//	sRect->setHeight(rect->height);
+//	paddedRect->setWidth(rect->width+padding*2);
+//	paddedRect->setHeight(rect->height+padding*2);
+//	this->setGlobalCanvasWidth(23);
 
 	// TODO: (now it is not possible to modify widgets width from canvas)
 	// modify sRect width changes widgets width so that widgets will be drawn
 }
 
-void ofxUIScrollableSliderCanvas::disableScrollBar()
+void ofxUIScrollableSliderCanvas::disableScrollBar()	////j ***********************
 {
-	// TODO test
-    rect->x		= sRect->x;
+/*    
+	rect->x		= sRect->x;
     rect->y		= sRect->y;
     rect->setWidth(sRect->width);
     rect->setHeight(sRect->height);
-	bScrollBar	= false;
-	snapping	= true;
+*/
 
-	delete gui_slider;
+	bScrollBar	= false;
+	delete sliderCanvas;
+	
 //	paddedRect->setWidth(sRect->width+padding*2);
 //	paddedRect->setHeight(sRect->height+padding*2);
 }
@@ -179,13 +194,13 @@ void ofxUIScrollableSliderCanvas::enableFBO()		////j ***********************
 	fboRect = new ofxUIRectangle;
 	fbo = new ofFbo;
 	fboRect->set(sRect->x, sRect->y, sRect->getWidth(), sRect->getHeight());
-	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA,0);
+	fbo->allocate(fboRect->getWidth(),  fboRect->getHeight(), GL_RGBA,0);
 //	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA32F_ARB,0);
-	if (bScrollBar) gui_slider->setPosition(sRect->x+sRect->getWidth(), sRect->y);
+	if (bScrollBar) sliderCanvas->setPosition(sRect->x+sRect->getWidth(), sRect->y);
 	rect->x = 0;
 	rect->y = 0;
-	sRect->y = 0;
-	//		sRect->y = 0; // this will mess up with the fbo..
+//	sRect->x = 0;
+//	sRect->y = 0; // this will mess up with the fbo..
 	
 //	autoSizeToFitWidgets();
 }
@@ -195,13 +210,13 @@ void ofxUIScrollableSliderCanvas::disableFBO()		////j ***********************
 	sRect->x = fboRect->x;
 	sRect->y = fboRect->y;
 	rect->x = fboRect->x;
-    rect->y =fboRect->y;
+	rect->y =fboRect->y;
 	
 	bFBO=false;
 	delete fboRect;
 	delete fbo;
 	
-/*	sRect->x = 0;		check out for tests
+/*	sRect->x = 0;		//use for tests
 	sRect->y = 0;
 	rect->x = 0;
     rect->y =0;
@@ -219,9 +234,9 @@ void ofxUIScrollableSliderCanvas::toggleFBO()		////j ***********************
 	{
 		enableFBO();
 		
-		//useful for debugging
-//		cout << counter<< endl;
-//		if (counter<5) counter++; else counter=0;
+		//useful for debugging blendings
+		cout << counter<< endl;
+		if (counter<5) counter++; else counter=0;
 
 	}
 
@@ -339,42 +354,43 @@ void ofxUIScrollableSliderCanvas::update()
             }
         }
         
-        if(scrollY && snapping)
+        if(scrollY && snapping)						// if the scroll is vertical
         {
             float dyTop = rect->y - sRect->y;
             float dyBot = (sRect->y+sRect->getHeight()) - (rect->y+rect->getHeight());
-			
-			if(fabs(dyBot) < stickyDistance)
+            //---------------
+			if(fabs(dyBot) < stickyDistance)		// if its near top
             {
                 nearTop = false;
                 nearBot = true;
             }
-            if(fabs(dyTop) < stickyDistance)
+            if(fabs(dyTop) < stickyDistance)		// if its near bottom
             {
                 nearTop = true;
                 nearBot = false;
             }
-            
-            if(dyTop > 0)
+            //---------------
+            if(dyTop > 0)							// it it is below top
             {
+//				cout<<"dyTop ="<<dyTop<<endl;
                 acc.y += (-dyTop)/10.0;
                 dampenY();
             }
-            else if(nearTop)
+            else if(nearTop)						// if it is above top
             {
-                acc.y += (-dyTop)/10.0;
-                dampenY();
+//                acc.y += (-dyTop)/10.0;
+//                dampenY();
             }
-            
-            if(dyBot > 0)
+            //---------------
+            if(dyBot > 0)							// if it is above bottom
             {
                 acc.y += (dyBot)/10.0;
                 dampenY();
             }
-            else if(nearBot)
+            else if(nearBot)						// if it is below bottom
             {
-                acc.y += (dyBot)/10.0;
-                dampenY();
+//                acc.y += (dyBot)/10.0;
+//                dampenY();
             }
             
             nearTop = false;
@@ -404,7 +420,12 @@ void ofxUIScrollableSliderCanvas::drawBack()
         ofxUIFill();
         ofxUISetColor(color_back);
         sRect->draw();
-    }
+
+        // use this for debugging
+		ofNoFill();
+        ofxUISetColor(color_outline_highlight);
+		rect->draw();
+	}
 }
 
 void ofxUIScrollableSliderCanvas::drawOutline()
@@ -471,6 +492,7 @@ void ofxUIScrollableSliderCanvas::draw()
 {
 	if (bFBO) {
 		sRect->x = 0;
+		sRect->y = 0;
 		
 		fbo->begin();
 		/*
@@ -499,6 +521,7 @@ void ofxUIScrollableSliderCanvas::draw()
 //		ofClearAlpha();			//2 works but font is too transparent
 //		ofClear(0,255);			//2
 		ofClear(0,0);			//3 same result as 2
+//		ofSetColor(0);
 		
 	}
 	else
@@ -553,11 +576,12 @@ void ofxUIScrollableSliderCanvas::draw()
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 		
 		ofSetColor(255);
 		fbo->draw(fboRect->getX(), fboRect->getY());
 		sRect->x = fboRect->x;
-
+		sRect->y = fboRect->y;
 	}
 	ofEnableAlphaBlending();			//this has to be enabled for sure
 }
@@ -572,12 +596,14 @@ void ofxUIScrollableSliderCanvas::setPosition(int x, int y)
 
 void ofxUIScrollableSliderCanvas::setDimensions(float _width, float _height)
 {
-    sRect->setWidth(MIN(_width, ofGetWidth() - sRect->getX()));
-    sRect->setHeight(MIN(_height, ofGetHeight() - sRect->getY()));
-    rect->setWidth(_width);
-    rect->setHeight(_height);
-    paddedRect->width = rect->width+padding*2;
-    paddedRect->height = rect->height+padding*2;
+//	sRect->setWidth(MIN(_width, ofGetWidth() - sRect->getX()));
+//	sRect->setHeight(MIN(_height, ofGetHeight() - sRect->getY()));
+	rect->setWidth(_width);
+	rect->setHeight(_height);
+//	paddedRect->width = rect->width+padding*2;
+//	paddedRect->height = rect->height+padding*2;
+	if (bScrollBar) updateScrollBarSize();
+	if (bScrollBar) updateScrollBarPosition();
 }
 
 
@@ -771,99 +797,91 @@ bool ofxUIScrollableSliderCanvas::isHit(int x, int y)
     return false;
 }
 
-void ofxUIScrollableSliderCanvas::setMappedScrollPos(float _posScroll){
-	
-	if(_posScroll >= 0 && _posScroll <= 1){
-		posScrollbar = _posScroll;
-	}
-}
-
-
-ofVec2f ofxUIScrollableSliderCanvas::calcHeightContents(vector<ofxUIWidget*> _auxwidgets)
+//--------------------------------------------------------------
+ofVec2f ofxUIScrollableSliderCanvas::getVisibleCanvasPercent()
 {
-	ofVec2f maximums = ofVec2f(0,0);
-    float maxWidth = 0;
-    float maxHeight = 0;
-    
-    for(vector<ofxUIWidget *>::iterator it = _auxwidgets.begin(); it != _auxwidgets.end(); ++it)
-    {
-        if((*it)->isVisible())
-        {
-            ofxUIRectangle* wr = (*it)->getRect();
-            ofxUIRectangle* wrp = (*it)->getPaddingRect();
-            float widgetwidth = wr->getX()+wrp->getWidth() - rect->getX();
-            float widgetheight = wr->getY()+wrp->getHeight() - rect->getY();
-            
-            float widgetpaddingwidth = wrp->getX()+wrp->getWidth() - rect->getX();
-            float widgetpaddingheight = wrp->getY()+wrp->getHeight() - rect->getY();
-            
-            
-            if(widgetwidth > maxWidth)
-            {
-                maxWidth = widgetwidth;
-            }
-            else if(widgetpaddingwidth > maxWidth)
-            {
-                maxWidth = widgetpaddingwidth;
-            }
-            
-            if(widgetheight > maxHeight)
-            {
-                maxHeight = widgetheight;
-            }
-            else if(widgetpaddingheight > maxHeight)
-            {
-                maxHeight = widgetpaddingheight;
-            }
-        }
-    }
-	maximums = ofVec2f(maxWidth, maxHeight);	
-	return maximums;
+	ofVec2f percent = ofVec2f(0,0);
+	
+	// how much canvas is not visible?
+	percent.x = sRect->getWidth()/rect->getWidth();
+	percent.y = sRect->getHeight()/rect->getHeight();
+	
+	return percent;
 }
+
 //--------------------------------------------------------------
-void ofxUIScrollableSliderCanvas::updateScrollBarSize(float maxrange, float minrange){
+ofVec2f ofxUIScrollableSliderCanvas::getCanvasPosition()
+{
+	ofVec2f position = ofVec2f(0,0);
+	
+	//relative position in pixels
+	float currentPosition = rect->y-sRect->y;
+	
+	//maximum movement in pixels
+	float maximumMovement = (rect->getHeight() - sRect->getHeight()) *-1;
+	
+	float postitionPercent = ofMap(currentPosition,
+								   0,
+								   maximumMovement,
+								   1,
+								   0,
+								   true);
+	
+	position.y = postitionPercent;
+	
+	return position;
+}
+
+//--------------------------------------------------------------
+void ofxUIScrollableSliderCanvas::setCanvasPosition(ofVec2f _position)
+{
+	// move canvas vertically (for now)
+	float postitionInPixels = ofMap(_position.y,
+									1 ,
+									0 ,
+									0 ,
+									rect->getHeight() - sRect->getHeight());
+
+	//cout << "rect->getHeight() = " << rect->getHeight() << endl;
+	//cout << "_position.y = " << _position.y << endl;
+	//cout << "postitionInPixels = " << postitionInPixels << endl;
+	
+	// in of you move negatively to move things up, so invert
+	postitionInPixels *= -1;
+	
+	rect->y =postitionInPixels+sRect->y;
+	
+}
+
+
+//--------------------------------------------------------------
+void ofxUIScrollableSliderCanvas::updateScrollBarSize(){
 	
 	if(scrollY){
 		
-		float sizeScrollbar = -1;
-		int sizeHContent = calcHeightContents(getWidgets()).y;// y is heigh, x is width
-		sizeScrollbar = ofxUIMap(sizeHContent, 0, maxrange, minrange, 10, true);
-		ofxUIScrollSlider* scrollSlider = (ofxUIScrollSlider*)gui_slider->getWidget("_Scroll");
-		
-		scrollSlider->setValueHigh(scrollSlider->getScaledValueHigh()+sizeScrollbar*0.5);
-		scrollSlider->setValueLow(scrollSlider->getScaledValueHigh()-sizeScrollbar*0.5);
+		// get the size of the canvas rect out of bounds in %
+		scrollRect.height = getVisibleCanvasPercent().y;
+		cout << "scrollRect.height*** = "<<scrollRect.height<< endl;
+		if(bScrollBar){
+			sliderWidget->setValueHigh(scrollRect.height);
+			sliderWidget->setValueLow(0);
+		}
 	}
 }
 
 //--------------------------------------------------------------
-void ofxUIScrollableSliderCanvas::updateScrollPosition(int max){
+void ofxUIScrollableSliderCanvas::updateScrollBarPosition(){
 	if(scrollY){
+		// find the current canvas position and apply it to the scroll
+		scrollRect.y = getCanvasPosition().y;
 		
-		vector<ofxUIWidget*> auxwidgets = getWidgets();
-		ofVec2f maxims = calcHeightContents(auxwidgets); 
-		int sizeHContent = maxims.y;
-		
-		//Find real canvas position. From 'y' position to 'maxY + y'
-		float posmap = ofxUIMap(posScrollbar, 0, 1, +sRect->y, -sizeHContent+max+sRect->y, true); 
-		
-		//finally move the canvas to direct pos finded between the maximum and minimum
-		rect->y = posmap;//floor(posmap); //force widgets to draw in pixel
+		if(bScrollBar){
+			sliderWidget->setScrollPosition(scrollRect.y);
+			cout << "setScrollPosition = "<<scrollRect.y<< endl;
+		}
 	}
 }
 
-//c
-//--------------------------------------------------------------
-void ofxUIScrollableSliderCanvas::adjustContentstoGui(){
-	
-	if(snapping)
-	{
-		autoSizeToFitWidgets(); 
-	}
-	else
-	{
-		updateScrollBarSize(3000, 500); // set new default size depending content inside // max , min
-	}
-}
 
 //--------------------------------------------------------------
 void ofxUIScrollableSliderCanvas::guiEvent(ofxUIEventArgs &e)
@@ -872,29 +890,32 @@ void ofxUIScrollableSliderCanvas::guiEvent(ofxUIEventArgs &e)
 	int kind = e.widget->getKind();
 	
 	if(name == "_Scroll"){
-		ofxUIScrollSlider* scrollSlider =  (ofxUIScrollSlider *)e.widget;
-		float mapvalscroll = scrollSlider->getPosScrollBar();
-		setMappedScrollPos(mapvalscroll);
-		updateScrollPosition(scrollSlider->getMax());		
+		float sliderValue = sliderWidget->getScrollPosition();
+		cout << "** slider value = "<<sliderValue <<endl;
+		cout << "** canvas value = "<<getCanvasPosition().y <<endl;
+
+		ofVec2f _position;
+		_position.y=sliderValue;
+
+		setCanvasPosition(_position);
 	}
 }
 
 //--------------------------------------------------------------
 void ofxUIScrollableSliderCanvas::setVisible(bool _visible)
 {
-	ofxUIScrollSlider* scrollSlider	=  (ofxUIScrollSlider *) gui_slider->getWidget("_Scroll");
     visible = _visible;
     if(visible)
     {
         enable();
-		scrollSlider->setVisible(true);
-		gui_slider->setVisible(true);
+		sliderWidget->setVisible(true);
+		sliderCanvas->setVisible(true);
     }
     else
     {
         disable();
-		scrollSlider->setVisible(false);
-		gui_slider->setVisible(false);
+		sliderWidget->setVisible(false);
+		sliderCanvas->setVisible(false);
     }
 }
 

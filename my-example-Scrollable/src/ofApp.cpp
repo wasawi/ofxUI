@@ -18,7 +18,6 @@ void ofApp::setup()
 	guiTest->addScrollSlider("test ", 80, 120, 90, 120, dim, 200, length-xInit);
 	
 	addWidgets();
-	addWidgets();
 	
     ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent); 
     
@@ -36,7 +35,11 @@ void ofApp::addWidgets(){
         gui->addSpacer(length-xInit, 2)->setVisible(false);
 		sliderIndex++;
     }
-	//	gui->updateScrollBarSize();
+	
+//	gui->updateScrollBarSize();
+//	gui->adjustContentstoGui();
+	gui->autoSizeToFitWidgets();		// this is needed in order for it to work!!
+										// (for now there's no better way to do it, gomen!)
 }
 
 //--------------------------------------------------------------
@@ -123,7 +126,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h)
 {
-    gui->getRect()->setWidth(ofGetWidth());
+	
 }
 
 //--------------------------------------------------------------
