@@ -176,19 +176,20 @@ void ofxUIScrollableSliderCanvas::setScrollArea(float x, float y, float w, float
     paddedRect->setHeight(h+padding*2);
 }
 
-void ofxUIScrollableSliderCanvas::enableFBO(int _blendmode)		////j ***********************
+void ofxUIScrollableSliderCanvas::enableFBO()		////j ***********************
 {
 	bFBO=true;
 	fboRect = new ofxUIRectangle;
 	fbo = new ofFbo;
 	fboRect->set(sRect->x, sRect->y, sRect->getWidth(), sRect->getHeight());
-//	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA,0);
-	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA32F_ARB,0);
+	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA,0);
+//	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA32F_ARB,0);
 	gui_slider->setPosition(sRect->x+sRect->getWidth(), sRect->y);
 	rect->x = 0;
 	rect->y = 0;
+	sRect->y = 0;
+	//		sRect->y = 0; // this will mess up with the fbo..
 	
-	blendMode = static_cast<ofBlendMode>(_blendmode);
 //	autoSizeToFitWidgets();
 }
 
@@ -219,10 +220,11 @@ void ofxUIScrollableSliderCanvas::toggleFBO()		////j ***********************
 	}
 	else
 	{
-		enableFBO(counter);
+		enableFBO();
 		
-		cout << blendMode<< endl;
-		if (counter<5) counter++; else counter=0;
+		//useful for debugging
+//		cout << counter<< endl;
+//		if (counter<5) counter++; else counter=0;
 
 	}
 
@@ -472,19 +474,20 @@ void ofxUIScrollableSliderCanvas::draw()
 {
 	if (bFBO) {
 		sRect->x = 0;
-		sRect->y = 0;
-
 		
 		fbo->begin();
 		/*
-		 keep for debugging
+		 keep this for debugging:
 		 
 		 OK this is a very ugly hack..
-		 this color is half of the double of the back color (50) which is 75.
-		 it is very hard to get around this problem:
+		 it is very hard to get around this problem..
+		 we cant apply the alpha two times so wi will draw with aplha blending disabled 
+		 and we will draw the fbo with		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		 http://forum.openframeworks.cc/t/fbo-problems-with-alpha/1643/10
 		 http://forum.openframeworks.cc/t/weird-problem-rendering-semi-transparent-image-to-fbo/2215/4
 		 */
+
+		// keep this for debugging:
 		ofEnableBlendMode(OF_BLENDMODE_DISABLED);	//2 //3
 //		ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 //		ofEnableBlendMode(OF_BLENDMODE_ADD);
@@ -492,7 +495,7 @@ void ofxUIScrollableSliderCanvas::draw()
 //		ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 //		ofEnableBlendMode(OF_BLENDMODE_SCREEN);
 
-//		ofEnableBlendMode(blendMode);
+//		ofEnableBlendMode(static_cast<ofBlendMode>(counter));
 
 //		ofClear(OFX_UI_COLOR_BACK_ALPHA);
 //		ofClear(0, 100);		//1
@@ -549,7 +552,7 @@ void ofxUIScrollableSliderCanvas::draw()
 	if (bFBO) {
 		fbo->end();
 //		ofEnableAlphaBlending();			//1,3,2
-//		ofEnableBlendMode(blendMode);
+//		ofEnableBlendMode(static_cast<ofBlendMode>(counter));
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -557,7 +560,6 @@ void ofxUIScrollableSliderCanvas::draw()
 		ofSetColor(255);
 		fbo->draw(fboRect->getX(), fboRect->getY());
 		sRect->x = fboRect->x;
-		sRect->y = fboRect->y;
 
 	}
 	ofEnableAlphaBlending();			//this has to be enabled for sure

@@ -65,7 +65,7 @@ public:
 	void enableScrollBar();
 	void disableScrollBar();
 	void toggleScrollBar();
-	void enableFBO(int _blendmode);
+	void enableFBO();
 	void disableFBO();
 	void toggleFBO();
 
@@ -120,5 +120,4 @@ protected:
 	
 	//debug
 	int counter;
-	ofBlendMode blendMode;
 };
