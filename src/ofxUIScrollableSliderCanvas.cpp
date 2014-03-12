@@ -185,10 +185,8 @@ void ofxUIScrollableSliderCanvas::enableFBO(int _blendmode)		////j *************
 //	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA,0);
 	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA32F_ARB,0);
 	gui_slider->setPosition(sRect->x+sRect->getWidth(), sRect->y);
-	sRect->x = 0;
-    sRect->y = 0;
 	rect->x = 0;
-    rect->y = 0;
+	rect->y = 0;
 	
 	blendMode = static_cast<ofBlendMode>(_blendmode);
 //	autoSizeToFitWidgets();
@@ -472,11 +470,11 @@ void ofxUIScrollableSliderCanvas::drawPaddedOutline()
 
 void ofxUIScrollableSliderCanvas::draw()
 {
-	
-
-
-	
 	if (bFBO) {
+		sRect->x = 0;
+		sRect->y = 0;
+
+		
 		fbo->begin();
 		/*
 		 keep for debugging
@@ -558,6 +556,9 @@ void ofxUIScrollableSliderCanvas::draw()
 		
 		ofSetColor(255);
 		fbo->draw(fboRect->getX(), fboRect->getY());
+		sRect->x = fboRect->x;
+		sRect->y = fboRect->y;
+
 	}
 	ofEnableAlphaBlending();			//this has to be enabled for sure
 }
