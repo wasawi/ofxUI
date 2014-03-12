@@ -65,7 +65,7 @@ public:
 	void enableScrollBar();
 	void disableScrollBar();
 	void toggleScrollBar();
-	void enableFBO();
+	void enableFBO(int _blendmode);
 	void disableFBO();
 	void toggleFBO();
 
@@ -117,4 +117,8 @@ protected:
 	int heightContents;
 	
 	ofxUICanvas *gui_slider;
+	
+	//debug
+	int counter;
+	ofBlendMode blendMode;
 };

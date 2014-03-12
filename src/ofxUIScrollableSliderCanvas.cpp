@@ -76,6 +76,8 @@ void ofxUIScrollableSliderCanvas::initScrollable()
     hit = true;
     snapping = true;
 	
+	
+	counter=0;
 	bFBO=false;
 #ifdef OFX_UI_TARGET_TOUCH
     touchId = -1;
@@ -174,7 +176,7 @@ void ofxUIScrollableSliderCanvas::setScrollArea(float x, float y, float w, float
     paddedRect->setHeight(h+padding*2);
 }
 
-void ofxUIScrollableSliderCanvas::enableFBO()		////j ***********************
+void ofxUIScrollableSliderCanvas::enableFBO(int _blendmode)		////j ***********************
 {
 	bFBO=true;
 	fboRect = new ofxUIRectangle;
@@ -187,6 +189,8 @@ void ofxUIScrollableSliderCanvas::enableFBO()		////j ***********************
     sRect->y = 0;
 	rect->x = 0;
     rect->y = 0;
+	
+	blendMode = static_cast<ofBlendMode>(_blendmode);
 //	autoSizeToFitWidgets();
 }
 
@@ -201,7 +205,7 @@ void ofxUIScrollableSliderCanvas::disableFBO()		////j ***********************
 	delete fboRect;
 	delete fbo;
 	
-/*	sRect->x = 0;
+/*	sRect->x = 0;		check out for tests
 	sRect->y = 0;
 	rect->x = 0;
     rect->y =0;
@@ -210,7 +214,20 @@ void ofxUIScrollableSliderCanvas::disableFBO()		////j ***********************
 
 void ofxUIScrollableSliderCanvas::toggleFBO()		////j ***********************
 {
-	if (bFBO) disableFBO(); else enableFBO();
+	
+	if (bFBO)
+	{
+		disableFBO();
+	}
+	else
+	{
+		enableFBO(counter);
+		
+		cout << blendMode<< endl;
+		if (counter<5) counter++; else counter=0;
+
+	}
+
 }
 
 void ofxUIScrollableSliderCanvas::setScrollAreaToScreen()
@@ -456,44 +473,46 @@ void ofxUIScrollableSliderCanvas::drawPaddedOutline()
 void ofxUIScrollableSliderCanvas::draw()
 {
 	
-//	ofEnableAlphaBlending();
+
 
 	
 	if (bFBO) {
 		fbo->begin();
 		/*
+		 keep for debugging
+		 
 		 OK this is a very ugly hack..
 		 this color is half of the double of the back color (50) which is 75.
 		 it is very hard to get around this problem:
 		 http://forum.openframeworks.cc/t/fbo-problems-with-alpha/1643/10
 		 http://forum.openframeworks.cc/t/weird-problem-rendering-semi-transparent-image-to-fbo/2215/4
-		 
-		 Some tests:
-		 left value: OFX_UI_COLOR_BACK_ALPHA 100 = 0,0,0,100
-		 right value: equivalent in ofClear();
-		 (this only works when ofBackground is default)
-		 0      200
-		 20     184
-		 50     158
-		 100    108
-		 150    59
-		 180    35
-		 200    20
-		 255    20
 		 */
-	ofDisableAlphaBlending();
+		ofEnableBlendMode(OF_BLENDMODE_DISABLED);	//2 //3
+//		ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//		ofEnableBlendMode(OF_BLENDMODE_ADD);
+//		ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
+//		ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+//		ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+
+//		ofEnableBlendMode(blendMode);
+
+//		ofClear(OFX_UI_COLOR_BACK_ALPHA);
+//		ofClear(0, 100);		//1
+//		ofClearAlpha();			//2 works but font is too transparent
+//		ofClear(0,255);			//2
+		ofClear(0,0);			//3 same result as 2
 		
-//		ofClear(0);
-		ofClear(0, 0);
-//        ofClearAlpha();	// works but font is too transparent
-//        ofClear(0,255); //
+	}
+	else
+	{
+		ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 	}
 	
     ofxUIPushStyle();
 	
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
-//    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+	
     ofxUISetRectMode(OFX_UI_RECTMODE_CORNER);
     ofSetLineWidth(1.0);
     
@@ -502,9 +521,6 @@ void ofxUIScrollableSliderCanvas::draw()
     drawPaddedOutline();
     
     drawBack();
-    
-//	ofDisableAlphaBlending();
-//	ofClearAlpha();
 	
     drawFill();
     
@@ -534,14 +550,16 @@ void ofxUIScrollableSliderCanvas::draw()
 	
 	if (bFBO) {
 		fbo->end();
-		ofEnableAlphaBlending();
-//		ofDisableAlphaBlending();
+//		ofEnableAlphaBlending();			//1,3,2
+//		ofEnableBlendMode(blendMode);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		
 		ofSetColor(255);
 		fbo->draw(fboRect->getX(), fboRect->getY());
-//		fbo.draw(0, 0);
 	}
-	ofEnableAlphaBlending();
-//	ofDisableAlphaBlending();
+	ofEnableAlphaBlending();			//this has to be enabled for sure
 }
 
 void ofxUIScrollableSliderCanvas::setPosition(int x, int y)
