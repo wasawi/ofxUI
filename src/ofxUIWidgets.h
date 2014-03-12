@@ -61,3 +61,11 @@
 #include "ofxUIImage.h"
 #include "ofxUIBaseDraws.h"
 #include "ofxUIImageSampler.h"
+//c&j
+#include "ofxUIScrollSlider.h"
+
+
+
+
+
+

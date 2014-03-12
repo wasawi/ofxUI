@@ -169,6 +169,11 @@ public:
     ofxUIRangeSlider* addRangeSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh, float w, float h, float x = 0, float y = 0);
     ofxUIRangeSlider* addRangeSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh);
     ofxUIRangeSlider* addRangeSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh, float w, float h, float x = 0, float y = 0);
+
+    ofxUIScrollSlider* addScrollSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh);
+    ofxUIScrollSlider* addScrollSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh, float w, float h, float x = 0, float y = 0);
+    ofxUIScrollSlider* addScrollSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh);
+    ofxUIScrollSlider* addScrollSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh, float w, float h, float x = 0, float y = 0);
     
     ofxUIFPSSlider* addFPSSlider(string _name, float _max = 400);
     ofxUIFPSSlider* addFPSSlider(string _name, float w, float h, float _max = 400, float x = 0, float y = 0);

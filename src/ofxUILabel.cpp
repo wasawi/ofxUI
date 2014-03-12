@@ -109,14 +109,14 @@ void ofxUILabel::drawFill()
 {
     if(draw_fill)
     {
-		ofPushStyle();
+/*		ofPushStyle();
 		ofSetColor(255,50);
 		float lineHeight = font->getLineHeight();
 		ofRectangle rec = font->getStringBoundingBox(label, 0, 0);
 		ofRect(floor(rect->getX())+xOffset, floor(rect->getY())+yOffset, rec.width, rec.height);
 		ofRect(floor(rect->getX())+xOffset, floor(rect->getY())+yOffset, rect->getWidth(), rect->getHeight());
 		ofPopStyle();
-
+*/
         ofxUIFill();
         ofxUISetColor(color_fill);
 		font->drawString(label, floor(rect->getX())+xOffset, floor((rect->getY())+rect->getHeight())+yOffset);
