@@ -28,7 +28,7 @@
 ofxUIScrollableSliderCanvas::~ofxUIScrollableSliderCanvas()
 {
     delete sRect;
-	delete gui_slider;
+	if (bScrollBar) disableScrollBar();
 	if (bFBO) disableFBO();
 }
 
@@ -139,8 +139,8 @@ void ofxUIScrollableSliderCanvas::enableScrollBar()
     paddedRect->setHeight(rect->height+padding*2);
 	this->setGlobalCanvasWidth(23);
 
-	// TODO: (now it is not possible to modify widgets from canvas)
-	// modify sRect width so that widgets will be drawn
+	// TODO: (now it is not possible to modify widgets width from canvas)
+	// modify sRect width changes widgets width so that widgets will be drawn
 }
 
 void ofxUIScrollableSliderCanvas::disableScrollBar()
@@ -156,9 +156,6 @@ void ofxUIScrollableSliderCanvas::disableScrollBar()
 	delete gui_slider;
 //	paddedRect->setWidth(sRect->width+padding*2);
 //	paddedRect->setHeight(sRect->height+padding*2);
-	
-	// TODO: (now it is not possible to modify widgets from canvas)
-	// modify sRect width so that widgets will be drawn
 }
 
 void ofxUIScrollableSliderCanvas::toggleScrollBar()		////j ***********************
