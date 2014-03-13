@@ -3,7 +3,8 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	ofBackground(80);
+	//ofBackground(80);
+	
 	
     float xInit = OFX_UI_GLOBAL_WIDGET_SPACING;
     float dim = 20;
@@ -12,6 +13,7 @@ void ofApp::setup()
         
     gui = new ofxUIScrollableSliderCanvas(ofGetWidth()/3,50,length+xInit,500);
     gui->setScrollableDirections(false, true);
+	gui->drawScrollCanvas(true);
 
     guiTest = new ofxUICanvas(700,50,200,500);
 	guiTest->addRangeSlider("test ", 80, 120, 90, 100, dim, 200, length-xInit);
@@ -50,7 +52,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-
+	ofBackgroundGradient(150,50);
 	ofSetColor(0);
 	
 	ofDrawBitmapString("press f to toggle fbo", ofPoint(20,60));

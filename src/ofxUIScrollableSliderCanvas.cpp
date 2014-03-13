@@ -75,7 +75,7 @@ void ofxUIScrollableSliderCanvas::initScrollable()
     stickyDistance = 32;
     hit = true;
     snapping = true;
-	
+	draw_scrollCanvas = false;
 	
 	counter=0;
 	bFBO=false;
@@ -122,7 +122,7 @@ void ofxUIScrollableSliderCanvas::enableScrollBar()		////j *********************
 	
 	// how big is the scrollbar?
 	scrollRect.height = getVisibleCanvasPercent().y;
-	cout << "scrollRect.height = "<< scrollRect.height<< endl;
+//	cout << "scrollRect.height = "<< scrollRect.height<< endl;
 	
 	setupScrollBar("_Scroll",					// string _name,
 				   0,							// float _min,
@@ -135,42 +135,18 @@ void ofxUIScrollableSliderCanvas::enableScrollBar()		////j *********************
 				   sRect->y,					// int _y,
 				   OFX_UI_FONT_SMALL);
 
-	ofVec2f position = 	ofVec2f(1,1);
-	position = getCanvasPosition();
-	cout << "canvas position = "<<position<< endl;
-
-//	updateScrollBarSize();
 	updateScrollBarPosition();
 
-	//	this must be called in your application after creating widgets
+//	this must be called in your application after creating widgets
 //	autoSizeToFitWidgets();
-	
-//	sRect->x = rect->x;
-//	sRect->y = rect->y;
-//	sRect->setWidth(rect->width);
-//	sRect->setHeight(rect->height);
-//	paddedRect->setWidth(rect->width+padding*2);
-//	paddedRect->setHeight(rect->height+padding*2);
-//	this->setGlobalCanvasWidth(23);
-
-	// TODO: (now it is not possible to modify widgets width from canvas)
-	// modify sRect width changes widgets width so that widgets will be drawn
+// TODO: (now it is not possible to modify widgets width from canvas)
+// modify sRect width changes widgets width so that widgets will be drawn
 }
 
 void ofxUIScrollableSliderCanvas::disableScrollBar()	////j ***********************
 {
-/*    
-	rect->x		= sRect->x;
-    rect->y		= sRect->y;
-    rect->setWidth(sRect->width);
-    rect->setHeight(sRect->height);
-*/
-
 	bScrollBar	= false;
 	delete sliderCanvas;
-	
-//	paddedRect->setWidth(sRect->width+padding*2);
-//	paddedRect->setHeight(sRect->height+padding*2);
 }
 
 void ofxUIScrollableSliderCanvas::toggleScrollBar()		////j ***********************
@@ -195,32 +171,13 @@ void ofxUIScrollableSliderCanvas::enableFBO()		////j ***********************
 	fbo = new ofFbo;
 	fboRect->set(sRect->x, sRect->y, sRect->getWidth(), sRect->getHeight());
 	fbo->allocate(fboRect->getWidth(),  fboRect->getHeight(), GL_RGBA,0);
-//	fbo->allocate(sRect->getWidth(),  sRect->getHeight(), GL_RGBA32F_ARB,0);
-	if (bScrollBar) sliderCanvas->setPosition(sRect->x+sRect->getWidth(), sRect->y);
-	rect->x = 0;
-	rect->y = 0;
-//	sRect->x = 0;
-//	sRect->y = 0; // this will mess up with the fbo..
-	
-//	autoSizeToFitWidgets();
 }
 
 void ofxUIScrollableSliderCanvas::disableFBO()		////j ***********************
 {
-	sRect->x = fboRect->x;
-	sRect->y = fboRect->y;
-	rect->x = fboRect->x;
-	rect->y =fboRect->y;
-	
 	bFBO=false;
 	delete fboRect;
 	delete fbo;
-	
-/*	sRect->x = 0;		//use for tests
-	sRect->y = 0;
-	rect->x = 0;
-    rect->y =0;
- */
 }
 
 void ofxUIScrollableSliderCanvas::toggleFBO()		////j ***********************
@@ -235,7 +192,7 @@ void ofxUIScrollableSliderCanvas::toggleFBO()		////j ***********************
 		enableFBO();
 		
 		//useful for debugging blendings
-		cout << counter<< endl;
+//		cout << counter<< endl;
 		if (counter<5) counter++; else counter=0;
 
 	}
@@ -405,12 +362,19 @@ void ofxUIScrollableSliderCanvas::update()
         
         vel *=damping;
         acc.set(0);
+		
+		
     }
+	else // if scrolling
+	{
+		updateScrollBarPosition();
+	}
     
     for(vector<ofxUIWidget *>::iterator it = widgets.begin(); it != widgets.end(); ++it)
     {
         (*it)->update();
     }
+	
 }
 
 void ofxUIScrollableSliderCanvas::drawBack()
@@ -420,8 +384,9 @@ void ofxUIScrollableSliderCanvas::drawBack()
         ofxUIFill();
         ofxUISetColor(color_back);
         sRect->draw();
-
-        // use this for debugging
+	}
+	if(draw_scrollCanvas)
+	{   // use this for debugging
 		ofNoFill();
         ofxUISetColor(color_outline_highlight);
 		rect->draw();
@@ -491,16 +456,22 @@ void ofxUIScrollableSliderCanvas::drawPaddedOutline()
 void ofxUIScrollableSliderCanvas::draw()
 {
 	if (bFBO) {
-		sRect->x = 0;
-		sRect->y = 0;
 		
 		fbo->begin();
+		
+		// move the canvas to fbo coordinates
+		rect->x = 0;
+		rect->y = rect->y - fboRect->y;
+		sRect->x = 0;
+		sRect->y = sRect->y - fboRect->y;
+		
+		
 		/*
 		 keep this for debugging:
 		 
-		 OK this is a very ugly hack..
-		 it is very hard to get around this problem..
-		 we cant apply the alpha two times so wi will draw with aplha blending disabled 
+		 OK this is very ugly..
+		 It is very hard to get around this problem..
+		 we cant apply the alpha two times so we will draw with aplha blending disabled
 		 and we will draw the fbo with		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		 http://forum.openframeworks.cc/t/fbo-problems-with-alpha/1643/10
 		 http://forum.openframeworks.cc/t/weird-problem-rendering-semi-transparent-image-to-fbo/2215/4
@@ -514,8 +485,14 @@ void ofxUIScrollableSliderCanvas::draw()
 //		ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 //		ofEnableBlendMode(OF_BLENDMODE_SCREEN);
 
+		// use this to try them all
 //		ofEnableBlendMode(static_cast<ofBlendMode>(counter));
 
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
+		
 //		ofClear(OFX_UI_COLOR_BACK_ALPHA);
 //		ofClear(0, 100);		//1
 //		ofClearAlpha();			//2 works but font is too transparent
@@ -571,19 +548,24 @@ void ofxUIScrollableSliderCanvas::draw()
 	
 	if (bFBO) {
 		fbo->end();
-//		ofEnableAlphaBlending();			//1,3,2
+//		ofEnableAlphaBlending();
 //		ofEnableBlendMode(static_cast<ofBlendMode>(counter));
+//		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-//		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		ofSetColor(255);
 		fbo->draw(fboRect->getX(), fboRect->getY());
+		
+		// put the canvas back
+		rect->x = fboRect->x;
+		rect->y = rect->y + fboRect->y;
 		sRect->x = fboRect->x;
-		sRect->y = fboRect->y;
+		sRect->y = sRect->y + fboRect->y;
 	}
-	ofEnableAlphaBlending();			//this has to be enabled for sure
+	//this has to be enabled for sure
+	ofEnableAlphaBlending();
 }
 
 void ofxUIScrollableSliderCanvas::setPosition(int x, int y)
@@ -861,7 +843,7 @@ void ofxUIScrollableSliderCanvas::updateScrollBarSize(){
 		
 		// get the size of the canvas rect out of bounds in %
 		scrollRect.height = getVisibleCanvasPercent().y;
-		cout << "scrollRect.height*** = "<<scrollRect.height<< endl;
+//		cout << "scrollRect.height*** = "<<scrollRect.height<< endl;
 		if(bScrollBar){
 			sliderWidget->setValueHigh(scrollRect.height);
 			sliderWidget->setValueLow(0);
@@ -877,7 +859,7 @@ void ofxUIScrollableSliderCanvas::updateScrollBarPosition(){
 		
 		if(bScrollBar){
 			sliderWidget->setScrollPosition(scrollRect.y);
-			cout << "setScrollPosition = "<<scrollRect.y<< endl;
+//			cout << "setScrollPosition = "<<scrollRect.y<< endl;
 		}
 	}
 }
@@ -891,8 +873,8 @@ void ofxUIScrollableSliderCanvas::guiEvent(ofxUIEventArgs &e)
 	
 	if(name == "_Scroll"){
 		float sliderValue = sliderWidget->getScrollPosition();
-		cout << "** slider value = "<<sliderValue <<endl;
-		cout << "** canvas value = "<<getCanvasPosition().y <<endl;
+//		cout << "** slider value = "<<sliderValue <<endl;
+//		cout << "** canvas value = "<<getCanvasPosition().y <<endl;
 
 		ofVec2f _position;
 		_position.y=sliderValue;
@@ -918,6 +900,13 @@ void ofxUIScrollableSliderCanvas::setVisible(bool _visible)
 		sliderCanvas->setVisible(false);
     }
 }
+
+//--------------------------------------------------------------
+void ofxUIScrollableSliderCanvas::drawScrollCanvas(bool _visible)
+{
+    draw_scrollCanvas = _visible;
+}
+
 
 //--------------------------------------------------------------
 void ofxUIScrollableSliderCanvas::setSliderWidth(float _sliderW)

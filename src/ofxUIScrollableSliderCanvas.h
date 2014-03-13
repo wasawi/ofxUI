@@ -68,6 +68,7 @@ public:
 	void enableFBO();
 	void disableFBO();
 	void toggleFBO();
+	void drawScrollCanvas(bool _visible);
 
 	void setScrollingDimensions(float _width, float _height, float _widthInternal, float _heightInternal);
     void setMappedScrollPos(float _posScroll);
@@ -134,6 +135,7 @@ protected:
 	ofxUICanvas *sliderCanvas;
 	ofxUIScrollSlider *sliderWidget;
 	bool bScrollBar;
+	bool draw_scrollCanvas;
 	ofxUIRectangle scrollRect; // the size of the scroll bar
 	
 	int heightContents;

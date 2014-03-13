@@ -376,24 +376,23 @@ void ofxUIScrollSlider::input(float x, float y)
         v = 1.0-rect->percentInside(x, y).y;
     }
 	
-	//some calcs	
+	//Set limits and values
 	rangeval = valuehigh - valuelow;
 	float halfrange = rangeval*0.5;
 	valuehigh = (v+halfrange); 
 	valuelow = (v-halfrange);
-	
-	//Set limits and values
-	// inside limits
+
+	// if inside limits
 	if((valuehigh < 1) && (valuelow > 0)){ 
 		hitPoint = v; 
 	}
-	//hitBottom
+	// if hitBottom
 	else if(valuehigh >= 1){
 		valuehigh = 1; 
 		valuelow= 1 - rangeval;
 		hitPoint = 1 - halfrange; 
 	}
-	//hitTop
+	// if hitTop
 	else if(valuelow <= 0){
 		valuehigh = rangeval; 
 		valuelow = 0;
@@ -601,7 +600,7 @@ float ofxUIScrollSlider::getScrollPosition()
 {
 	currentPosition=0;
 	
-	cout << "***********"<< endl;
+/*	cout << "***********"<< endl;
 	cout << "valuelow = "<< valuelow << endl;
 	cout << "valuehigh = "<< valuehigh << endl;
 	cout << "hitValueLow = "<< hitValueLow << endl;
@@ -616,7 +615,7 @@ float ofxUIScrollSlider::getScrollPosition()
 	cout << "y = "<< rect->y << endl;
 	cout << "w = "<< rect->width << endl;
 	cout << "h = "<< rect->height << endl;
-
+*/
 	currentPosition = ofMap(valuelow, 0, 1-rangeval, 0, 1);
 	
 	return currentPosition;
@@ -625,15 +624,17 @@ float ofxUIScrollSlider::getScrollPosition()
 void ofxUIScrollSlider::setScrollPosition(float _y)
 {
 	rangeval = valuehigh - valuelow;
-	cout << "*************************"<< endl;
+/*	cout << "*************************"<< endl;
 	cout << "goto y = "<< _y << endl;
 	cout << "rangeval = "<< rangeval << endl;
+*/
 	float _valuelow = ofMap(_y, 0, 1, 0, 1-rangeval, true);
 	setValueLow(_valuelow);
-	cout << "valuelow = "<< _valuelow << endl;
+//	cout << "valuelow = "<< _valuelow << endl;
 	
-	float _valuehigh = ofMap(_y, 0, 1, rangeval, 1, true);// make sure it falls inside the slider
-	cout << "valuehigh = "<< _valuehigh << endl;
+	// make sure it falls inside the slider, so clamp it
+	float _valuehigh = ofMap(_y, 0, 1, rangeval, 1, true);
+//	cout << "valuehigh = "<< _valuehigh << endl;
 	setValueHigh(_valuehigh);
 	rangeval = valuehigh - valuelow;
 }
