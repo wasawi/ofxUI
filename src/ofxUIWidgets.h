@@ -63,7 +63,7 @@
 #include "ofxUIImageSampler.h"
 //c&j
 #include "ofxUIScrollSlider.h"
-
+#include "ofxUI3DPad.h"
 
 
 
