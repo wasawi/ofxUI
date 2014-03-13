@@ -13,16 +13,19 @@ void ofApp::setup()
         
     gui = new ofxUIScrollableSliderCanvas(ofGetWidth()/3,50,length+xInit,500);
     gui->setScrollableDirections(false, true);
-	gui->drawScrollCanvas(true);
+	addWidgets();
+	ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
+	
+	
+	// for debug purposes:
+//	gui->drawScrollCanvas(true);
 
+	/* comapare scroll slider to range slider
     guiTest = new ofxUICanvas(700,50,200,500);
 	guiTest->addRangeSlider("test ", 80, 120, 90, 100, dim, 200, length-xInit);
 	guiTest->addScrollSlider("test ", 80, 120, 90, 120, dim, 200, length-xInit);
+	*/
 	
-	addWidgets();
-	
-    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent); 
-    
 }
 //--------------------------------------------------------------
 void ofApp::addWidgets(){
@@ -38,10 +41,10 @@ void ofApp::addWidgets(){
 		sliderIndex++;
     }
 	
-//	gui->updateScrollBarSize();
-//	gui->adjustContentstoGui();
-	gui->autoSizeToFitWidgets();		// this is needed in order for it to work!!
-										// (for now there's no better way to do it, gomen!)
+	// this is needed in order for it to work!!
+	// (for now there's no better way to do it, gomenasai!)
+	// make sue you use it everytime you create widgets
+	gui->autoSizeToFitWidgets();
 }
 
 //--------------------------------------------------------------
