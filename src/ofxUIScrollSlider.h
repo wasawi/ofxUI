@@ -66,6 +66,10 @@ public:
     void setVisible(bool _visible);
 	void setValueLow(float _value);
 	void setValueHigh(float _value);
+	float getValueLow();
+    float getValueHigh();
+    float getNormalizedValueLow();
+    float getNormalizedValueHigh();
 	float getPercentValueLow();
 	float getPercentValueHigh();
 	float getScaledValueLow();
@@ -81,13 +85,14 @@ public:
     void setMaxAndMin(float _max, float _min);
     bool isDraggable();
 	
-	//c
-	float getPercentValueMiddle();
-	float getPosScrollBar();
-	float rangeval;
+	float getScrollPosition();
+	void setScrollPosition(float _y);
     
 protected:    
-	float valuelow, valuehigh, increment; 
+	float rangeval;
+	float currentPosition;
+	
+	float valuelow, valuehigh, increment;
     float *valuelowRef; 
     float *valuehighRef;    
     bool useReference;         
@@ -95,5 +100,9 @@ protected:
 	bool hitHigh, hitLow, hitCenter; 
 	float hitPoint; 
 	float max, min; 
-    int labelPrecision;        
-}; 
+    int labelPrecision;
+    string valuelowString;
+    string valuehighString;
+};
+
+

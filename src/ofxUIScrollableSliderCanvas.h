@@ -68,13 +68,26 @@ public:
 	void enableFBO();
 	void disableFBO();
 	void toggleFBO();
+	void drawScrollCanvas(bool _visible);
 
 	void setScrollingDimensions(float _width, float _height, float _widthInternal, float _heightInternal);
     void setMappedScrollPos(float _posScroll);
-	ofVec2f calcHeightContents(vector<ofxUIWidget*> _auxwidgets);
-	void updateScrollPosition(int max);
-	void updateScrollBarSize(float maxrange, float minrange);
-	void setupScrollBar(string _name, float _min, float _max, int _lowvalue, int _highvalue, int _w, int _h, int _x, int _y, int _size);
+	ofVec2f getVisibleCanvasPercent();
+	ofVec2f getCanvasPosition();
+	void setCanvasPosition(ofVec2f _position);
+	void updateScrollBarPosition();
+	void updateScrollBarSize();
+	void setupScrollBar(string _name,
+						float _min,
+						float _max,
+						float _lowvalue,
+						float _highvalue,
+						int _w,
+						int _h,
+						int _x,
+						int _y,
+						int _size);
+	
 	void setSliderWidth(float _sliderW);
 
 #ifdef OFX_UI_TARGET_TOUCH
@@ -88,10 +101,7 @@ public:
     void mouseReleased(int x, int y, int button);
     ofxUIRectangle *getSRect();
     virtual bool isHit(int x, int y);
-	
-	//c & j
 	void guiEvent(ofxUIEventArgs &e);
-	void adjustContentstoGui();
 
 protected:
     ofxUIRectangle *sRect;
@@ -107,16 +117,28 @@ protected:
     float damping;
     float stickyDistance;    
 	
-	//c & j
-	ofFbo *fbo;				//experimental
+	/**
+	 Notes:
+	 -sRect is the visible canvas
+	 -rect is the invisible rectangle wrapping all the widgets
+		(bigger than sRect)
+	 -fboRect is the image where the fbo is drawn
+	 
+	 */
+	
+	//fbo
+	ofFbo *fbo;				
     ofxUIRectangle *fboRect;
 	bool bFBO;
-	bool bScrollBar;
-	float posScrollbar;		//Direct scrolling
-	ofPoint scrollSize;
-	int heightContents;
 	
-	ofxUICanvas *gui_slider;
+	//scroll
+	ofxUICanvas *sliderCanvas;
+	ofxUIScrollSlider *sliderWidget;
+	bool bScrollBar;
+	bool draw_scrollCanvas;
+	ofxUIRectangle scrollRect; // the size of the scroll bar
+	
+	int heightContents;
 	
 	//debug
 	int counter;

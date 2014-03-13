@@ -159,6 +159,9 @@ void ofxUIScrollSlider::init(string _name, float _min, float _max, float *_value
     label->setEmbedded(true);
     
     increment = fabs(max - min) / 10.0;
+
+	//j
+	rangeval = valuehigh - valuelow;
 }
 
 void ofxUIScrollSlider::update()
@@ -216,11 +219,11 @@ void ofxUIScrollSlider::drawFillHighlight()
         }
 		if(kind == OFX_UI_WIDGET_SSLIDER_V)
 		{
-			//if(ofGetLogLevel()== OF_LOG_VERBOSE)label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuehigh, ofxUIToString(valuehigh,labelPrecision)); 
-			//if(ofGetLogLevel()== OF_LOG_VERBOSE)label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuelow, ofxUIToString(valuelow,labelPrecision)); 
+//            label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuehigh, valuehighString);
+//            label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuelow, valuelowString);
 			
-			float middleval = getPercentValueMiddle();
-			float mapmiddleval = getPosScrollBar();
+//			float middleval = getPercentValueMiddle();
+//			float mapmiddleval = getScrollPosition();
 			
 			//if(ofGetLogLevel()== OF_LOG_VERBOSE)label->drawString(rect->getX()+rect->getWidth()+padding, middleval, ofxUIToString(mapmiddleval,labelPrecision)); 
 		}
@@ -364,8 +367,6 @@ void ofxUIScrollSlider::input(float x, float y)
 {
     float v = 0;
 	
-	//c
-
     if(kind == OFX_UI_WIDGET_SSLIDER_H)
     {
         v = rect->percentInside(x, y).x;
@@ -375,24 +376,23 @@ void ofxUIScrollSlider::input(float x, float y)
         v = 1.0-rect->percentInside(x, y).y;
     }
 	
-	//some calcs	
-	float rangeval = valuehigh - valuelow;
+	//Set limits and values
+	rangeval = valuehigh - valuelow;
 	float halfrange = rangeval*0.5;
 	valuehigh = (v+halfrange); 
 	valuelow = (v-halfrange);
-	
-	//Set limits and values
-	// inside limits
+
+	// if inside limits
 	if((valuehigh < 1) && (valuelow > 0)){ 
 		hitPoint = v; 
 	}
-	//hitBottom
+	// if hitBottom
 	else if(valuehigh >= 1){
 		valuehigh = 1; 
 		valuelow= 1 - rangeval;
 		hitPoint = 1 - halfrange; 
 	}
-	//hitTop
+	// if hitTop
 	else if(valuelow <= 0){
 		valuehigh = rangeval; 
 		valuelow = 0;
@@ -422,9 +422,12 @@ void ofxUIScrollSlider::updateValueRef()
 
 void ofxUIScrollSlider::updateLabel()
 {
+    valuelowString = ofxUIToString(getValueLow(),labelPrecision);
+    valuehighString = ofxUIToString(getValueHigh(),labelPrecision);
+    
     if(kind == OFX_UI_WIDGET_RSLIDER_H)
     {
-        label->setLabel(name + ": " + ofxUIToString(getScaledValueLow(),labelPrecision) + " " + ofxUIToString(getScaledValueHigh(),labelPrecision));
+        label->setLabel(name + ": " + valuelowString + " " + valuehighString);
     }
 }
 
@@ -476,8 +479,8 @@ void ofxUIScrollSlider::stateChange()
 
 void ofxUIScrollSlider::setVisible(bool _visible)
 {
-    visible = _visible;
-    label->setVisible(visible);
+	visible = _visible;
+	label->setVisible(visible);
 }
 
 void ofxUIScrollSlider::setValueLow(float _value)
@@ -492,6 +495,26 @@ void ofxUIScrollSlider::setValueHigh(float _value)
     valuehigh = ofxUIMap(_value, min, max, 0.0, 1.0, true);
     updateValueRef();
     updateLabel();
+}
+
+float ofxUIScrollSlider::getValueLow()
+{
+    return (*valuelowRef);
+}
+
+float ofxUIScrollSlider::getValueHigh()
+{
+    return (*valuehighRef);
+}
+
+float ofxUIScrollSlider::getNormalizedValueLow()
+{
+    return valuelow;
+}
+
+float ofxUIScrollSlider::getNormalizedValueHigh()
+{
+    return valuehigh;
 }
 
 float ofxUIScrollSlider::getPercentValueLow()
@@ -514,11 +537,6 @@ float ofxUIScrollSlider::getScaledValueHigh()
     return ofxUIMap(valuehigh, 0.0, 1.0, min, max, true);
 }
 
-ofxUILabel *ofxUIScrollSlider::getLabel()
-{
-    return label;
-}
-
 void ofxUIScrollSlider::setLabelVisible(bool _labelVisible)
 {
     label->setVisible(_labelVisible);
@@ -534,17 +552,8 @@ void ofxUIScrollSlider::setLabelPrecision(int _precision)
 void ofxUIScrollSlider::setParent(ofxUIWidget *_parent)
 {
     parent = _parent;
-    paddedRect->height += label->getPaddingRect()->height;
-    if(kind == OFX_UI_WIDGET_SSLIDER_V)
-    {
-        if(label->getPaddingRect()->width > paddedRect->width)
-        {
-            paddedRect->width = label->getPaddingRect()->width+padding;
-        }
-    }
+    calculatePaddingRect();
 }
-
-
 
 void ofxUIScrollSlider::setMax(float _max)
 {
@@ -573,9 +582,10 @@ void ofxUIScrollSlider::setMaxAndMin(float _max, float _min)
 bool ofxUIScrollSlider::isDraggable()
 {
     return true;
-}  
+}
 
-//c
+
+
 float ofxUIScrollSlider::getMax()
 {
     return max;
@@ -586,16 +596,50 @@ float ofxUIScrollSlider::getMin()
     return min;
 }
 
-float ofxUIScrollSlider::getPercentValueMiddle()
-{		
-	float lowval = label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuelow;
-	float highval = label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*valuehigh;
-	float middleval = highval - (highval - lowval)*0.5;
+float ofxUIScrollSlider::getScrollPosition()
+{
+	currentPosition=0;
 	
-	return middleval; 
+/*	cout << "***********"<< endl;
+	cout << "valuelow = "<< valuelow << endl;
+	cout << "valuehigh = "<< valuehigh << endl;
+	cout << "hitValueLow = "<< hitValueLow << endl;
+	cout << "hitValueHigh = "<< hitValueHigh << endl;
+	cout << "hitPoint = "<< hitPoint << endl;
+	cout << "max = "<< max << endl;
+	cout << "min = "<< min << endl;
+	cout << "rangeval = "<< rangeval << endl;
+	cout << "min = "<< min << endl;
+	cout << "-----------"<< endl;
+	cout << "x = "<< rect->x << endl;
+	cout << "y = "<< rect->y << endl;
+	cout << "w = "<< rect->width << endl;
+	cout << "h = "<< rect->height << endl;
+*/
+	currentPosition = ofMap(valuelow, 0, 1-rangeval, 0, 1);
+	
+	return currentPosition;
 }
 
-float ofxUIScrollSlider::getPosScrollBar()
-{			
-	return hitPoint; 
+void ofxUIScrollSlider::setScrollPosition(float _y)
+{
+	rangeval = valuehigh - valuelow;
+/*	cout << "*************************"<< endl;
+	cout << "goto y = "<< _y << endl;
+	cout << "rangeval = "<< rangeval << endl;
+*/
+	float _valuelow = ofMap(_y, 0, 1, 0, 1-rangeval, true);
+	setValueLow(_valuelow);
+//	cout << "valuelow = "<< _valuelow << endl;
+	
+	// make sure it falls inside the slider, so clamp it
+	float _valuehigh = ofMap(_y, 0, 1, rangeval, 1, true);
+//	cout << "valuehigh = "<< _valuehigh << endl;
+	setValueHigh(_valuehigh);
+	rangeval = valuehigh - valuelow;
 }
+
+
+
+
+
