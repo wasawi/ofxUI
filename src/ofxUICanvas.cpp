@@ -1529,6 +1529,36 @@ ofxUIRangeSlider* ofxUICanvas::addRangeSlider(string _name, float _min, float _m
     return widget;
 }
 
+ofxUIScrollSlider* ofxUICanvas::addScrollSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh)
+{
+    ofxUIScrollSlider* widget = new ofxUIScrollSlider(_name, _min, _max, _valuelow, _valuehigh, rect->getWidth()-widgetSpacing*2, globalSliderHeight, 0, 0);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+ofxUIScrollSlider* ofxUICanvas::addScrollSlider(string _name, float _min, float _max, float _valuelow, float _valuehigh,
+											  float w, float h, float x, float y)
+{
+    ofxUIScrollSlider* widget = new ofxUIScrollSlider(_name, _min, _max, _valuelow, _valuehigh, w, h, x, y);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+ofxUIScrollSlider* ofxUICanvas::addScrollSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh)
+{
+    ofxUIScrollSlider* widget = new ofxUIScrollSlider(_name, _min, _max, _valuelow, _valuehigh, rect->getWidth()-widgetSpacing*2, globalSliderHeight, 0, 0);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
+ofxUIScrollSlider* ofxUICanvas::addScrollSlider(string _name, float _min, float _max, float *_valuelow, float *_valuehigh,
+											  float w, float h, float x, float y)
+{
+    ofxUIScrollSlider* widget = new ofxUIScrollSlider(_name, _min, _max, _valuelow, _valuehigh, w, h, x, y);
+    addWidgetPosition(widget, widgetPosition, widgetAlign);
+    return widget;
+}
+
 ofxUIFPSSlider* ofxUICanvas::addFPSSlider(string _name, float _max)
 {
     ofxUIFPSSlider* widget = new ofxUIFPSSlider(_name, rect->getWidth()-widgetSpacing*2, globalSliderHeight, _max, 0, 0);
