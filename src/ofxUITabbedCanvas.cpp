@@ -188,11 +188,13 @@ void ofxUITabbedCanvas::setPosition(const ofVec2f &pos)
 {
     if (mTabs) {
         mPosition = pos;
-        if (mPosition.y<0.0f)
+		if (mPosition.y<0.0f)
             mPosition.y = 0.0f;
-        ofVec2f tabPos = mPosition;
+		ofVec2f tabPos = mPosition;
         tabPos.y += mTabSpacing;
-        mTabs->getRect()->setPosition(tabPos);
+//        mTabs->getRect()->setPosition(tabPos.x, tabPos.y);
+		mTabs->getRect()->setX(tabPos.x);
+		mTabs->getRect()->setY(tabPos.y);
         mDraggableRect.setPosition(ofVec2f(mPosition.x, mPosition.y));
     }
 }
@@ -215,8 +217,8 @@ void ofxUITabbedCanvas::resize()
     if (mTabs)
         mTabs->getRect()->setWidth(mTabSize.width);
     
-    super::getRect()->set(mTabSize);
-    
+//    super::getRect()->set(mTabSize);
+	super::getRect()->set(mTabSize.x, mTabSize.y, mTabSize.width, mTabSize.height);
     for (int i=0; i<size(); i++) {
         at(i)->getRect()->setWidth(mTabSize.width);
     }
