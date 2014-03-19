@@ -35,3 +35,4 @@
 #include "ofxUITabBar.h"
 //c&j
 #include "ofxUIScrollableSliderCanvas.h"
+#include "ofxUITabbedCanvas.h"

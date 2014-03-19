@@ -3207,3 +3207,8 @@ void ofxUICanvas::checkForKeyFocus(ofxUIWidget *child)
     }        
     hasKeyBoard = false;
 }
+
+ofxUIRectangle* ofxUICanvas::getRect()
+{
+	return this->ofxUIWidget::getRect();
+}

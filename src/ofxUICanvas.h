@@ -70,6 +70,7 @@ public:
     virtual void update();
     virtual void draw();
     void exit();
+	ofxUIRectangle* getRect();
     
 #ifdef OFX_UI_TARGET_TOUCH
     virtual void canvasTouchDown(float x, float y, int id);
