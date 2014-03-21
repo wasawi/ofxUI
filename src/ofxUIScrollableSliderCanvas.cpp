@@ -762,9 +762,11 @@ ofxUIRectangle *ofxUIScrollableSliderCanvas::getSRect()
 
 bool ofxUIScrollableSliderCanvas::isHit(int x, int y)
 {
-    if(isEnabled() && sRect->inside(x, y))
+    if(isEnabled())
     {
+		if(sRect->inside(x, y) || sliderCanvas->isHit(x, y)){
         return true;
+		}
     }
     else
     {
