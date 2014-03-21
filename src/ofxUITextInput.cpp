@@ -50,6 +50,8 @@ void ofxUITextInput::init(string _name, string _textstring, float w, float h, fl
     cursorWidth = 0; spaceOffset = 0;
     theta = 0;
     autoUnfocus = true;
+    onlyNumericInput = false;
+	onlyDataInput = false;
     cursorPosition = 0;
     firstVisibleCharacterIndex = 0;
 }
@@ -287,6 +289,22 @@ void ofxUITextInput::keyPressed(int key)
                 
             default:
             {
+                if (onlyNumericInput) {
+                    cout << key << endl;
+                    if((!isdigit(key) && key != 46  && key != 45) || (key == 45 && cursorPosition != 0)) {
+                        // The key pressed is not numeric (0-9) or the '.' character.
+                        // Or the '-' character at the beginning of the string.
+                        break;
+                    }
+                }
+                else if (onlyDataInput) {
+                    cout << key << endl;
+                    if((!isdigit(key) && key != 46  && key != 47)) {
+                        // The key pressed is not numeric (0-9) or the '/' character.
+                        break;
+                    }
+                }
+				
                 textstring.insert(cursorPosition, 1, key);
                 cursorPosition++;
                 recalculateDisplayString();
@@ -453,6 +471,16 @@ bool ofxUITextInput::isFocused()
 void ofxUITextInput::setAutoUnfocus(bool _autoUnfocus)
 {
     autoUnfocus = _autoUnfocus;
+}
+
+void ofxUITextInput::setOnlyNumericInput(bool _onlyNumericInput)
+{
+    onlyNumericInput = _onlyNumericInput;
+}
+
+void ofxUITextInput::setOnlyDataInput(bool _onlyDataInput)
+{
+    onlyDataInput = _onlyDataInput;
 }
 
 void ofxUITextInput::setTriggerOnClick(bool _triggerOnClick)
