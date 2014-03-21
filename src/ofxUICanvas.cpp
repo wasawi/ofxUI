@@ -1069,6 +1069,13 @@ void ofxUICanvas::addWidget(ofxUIWidget *widget)
         ofxUILabel *label = (ofxUILabel *) widget;
         setLabelFont(label);
         setWidgetColor(label);
+		
+		////////////////////////////////////////////////////////////////////////// j !
+		#ifdef USE_FTGL
+		ofxFTGLSimpleLayout *f;
+		f= label ->ofxUIWidget::getFont();
+		f->setLineLength(rect->getWidth());
+		#endif
     }
     
     setWidgetDrawingProperties(widget);
