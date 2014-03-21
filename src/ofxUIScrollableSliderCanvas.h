@@ -131,12 +131,14 @@ protected:
     ofxUIRectangle *fboRect;
 	bool bFBO;
 	
-	//scroll
-	ofxUICanvas *sliderCanvas;
-	ofxUIScrollSlider *sliderWidget;
-	bool bScrollBar;
+	//scrolled Canvas
 	bool draw_scrollCanvas;
-	ofxUIRectangle scrollRect; // the size of the scroll bar
+	ofxUICanvas *sliderCanvas;
+	
+	//scroll Bar
+	bool bScrollBar;
+	ofxUIScrollSlider *scrollBar;
+	ofxUIRectangle scrollBarRect; // the size of the scroll bar
 	
 	int heightContents;
 	

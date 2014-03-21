@@ -34,7 +34,7 @@ ofxUIScrollableSliderCanvas::~ofxUIScrollableSliderCanvas()
 
 ofxUIScrollableSliderCanvas::ofxUIScrollableSliderCanvas(float x, float y, float w, float h, float sliderW) : ofxUICanvas(x,y,w,h)
 {
-	scrollRect.width	= sliderW;
+	scrollBarRect.width	= sliderW;
 	initScrollable();
 }
 
@@ -63,7 +63,7 @@ void ofxUIScrollableSliderCanvas::initScrollable()
     scrollX = false;
     scrollY = true;
 
-	scrollRect.width = 20;
+	scrollBarRect.width = 20;
 	bScrollBar=false;
 	
     nearTop = true;
@@ -90,7 +90,7 @@ void ofxUIScrollableSliderCanvas::setupScrollBar(string _name, float _min, float
 	sliderCanvas->setDrawBack(true);
 	float spacing = 0.1;
 	sliderCanvas->setWidgetSpacing(spacing);
-	sliderWidget = (ofxUIScrollSlider*)sliderCanvas->addWidgetRight(new ofxUIScrollSlider(_name,
+	scrollBar = (ofxUIScrollSlider*)sliderCanvas->addWidgetRight(new ofxUIScrollSlider(_name,
 													 _min,
 													 _max,
 													 _lowvalue,
@@ -121,15 +121,15 @@ void ofxUIScrollableSliderCanvas::enableScrollBar()		////j *********************
 	bScrollBar=true;
 	
 	// how big is the scrollbar?
-	scrollRect.height = getVisibleCanvasPercent().y;
-//	cout << "scrollRect.height = "<< scrollRect.height<< endl;
+	scrollBarRect.height = getVisibleCanvasPercent().y;
+//	cout << "scrollBarRect.height = "<< scrollBarRect.height<< endl;
 	
 	setupScrollBar("_Scroll",					// string _name,
 				   0,							// float _min,
 				   1,							// float _max,
 				   0,							// int _lowvalue,
-				   scrollRect.height,			// int _highvalue,
-				   scrollRect.width,			// int _w,
+				   scrollBarRect.height,			// int _highvalue,
+				   scrollBarRect.width,			// int _w,
 				   sRect->getHeight(),			// int _h,
 				   sRect->x+sRect->getWidth(),	// int _x,
 				   sRect->y,					// int _y,
@@ -844,11 +844,11 @@ void ofxUIScrollableSliderCanvas::updateScrollBarSize(){
 	if(scrollY){
 		
 		// get the size of the canvas rect out of bounds in %
-		scrollRect.height = getVisibleCanvasPercent().y;
-//		cout << "scrollRect.height*** = "<<scrollRect.height<< endl;
+		scrollBarRect.height = getVisibleCanvasPercent().y;
+//		cout << "scrollBarRect.height*** = "<<scrollBarRect.height<< endl;
 		if(bScrollBar){
-			sliderWidget->setValueHigh(scrollRect.height);
-			sliderWidget->setValueLow(0);
+			scrollBar->setValueHigh(scrollBarRect.height);
+			scrollBar->setValueLow(0);
 		}
 	}
 }
@@ -857,11 +857,11 @@ void ofxUIScrollableSliderCanvas::updateScrollBarSize(){
 void ofxUIScrollableSliderCanvas::updateScrollBarPosition(){
 	if(scrollY){
 		// find the current canvas position and apply it to the scroll
-		scrollRect.y = getCanvasPosition().y;
+		scrollBarRect.y = getCanvasPosition().y;
 		
 		if(bScrollBar){
-			sliderWidget->setScrollPosition(scrollRect.y);
-//			cout << "setScrollPosition = "<<scrollRect.y<< endl;
+			scrollBar->setScrollPosition(scrollBarRect.y);
+//			cout << "setScrollPosition = "<<scrollBarRect.y<< endl;
 		}
 	}
 }
@@ -874,7 +874,7 @@ void ofxUIScrollableSliderCanvas::guiEvent(ofxUIEventArgs &e)
 	int kind = e.widget->getKind();
 	
 	if(name == "_Scroll"){
-		float sliderValue = sliderWidget->getScrollPosition();
+		float sliderValue = scrollBar->getScrollPosition();
 //		cout << "** slider value = "<<sliderValue <<endl;
 //		cout << "** canvas value = "<<getCanvasPosition().y <<endl;
 
@@ -892,13 +892,13 @@ void ofxUIScrollableSliderCanvas::setVisible(bool _visible)
     if(visible)
     {
         enable();
-		sliderWidget->setVisible(true);
+		if(bScrollBar) scrollBar->setVisible(true);
 		sliderCanvas->setVisible(true);
     }
     else
     {
         disable();
-		sliderWidget->setVisible(false);
+		if(bScrollBar) scrollBar->setVisible(false);
 		sliderCanvas->setVisible(false);
     }
 }
